@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Bootstrap-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script
+          src="https://code.jquery.com/jquery-3.2.1.min.js"
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                crossorigin="anonymous"></script>
+        
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkycOiUT5mdMoQ3CsIThXOXPVNR3aiCaw&callback=initMap">
+        </script>
+        <!--
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBUtBSkYG4La5eFjzh9Uk7_y9TY0XQuDU&callback=initDetailedMap">
+        </script>
+        -->
+         <script src = "script.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+       <link href="https://fonts.googleapis.com/css?family=Open+Sans:400i" rel="stylesheet">
+       <link rel="stylesheet" href="animate.css">
+
+    </head>
+
+    <body>
+        <div id= "main" class="mainImage">
+            <div class="text">
+                <span class="border">Welcome to Eventuous</span><br>
+                <span class="border">The site to help you find nearby events</span>
+
+                <div><input id="button2" class="button1" type="button" value="Enter Website"> </div>
+                <div><input id="button3" class="button1" type="button" value="Login/Register"> </div>
+            </div>
+        </div>
+
+         <div id="register-login" class="div well hidden">
+                 
+               <div class="container forms">
+                      <h2>Login if you already have an account</h2>
+                      <form action="/">
+                        <div class="form-group">
+                          <label for="email">Email:</label>
+                          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                        </div>
+                        <div class="form-group">
+                          <label for="pwd">Password:</label>
+                          <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-warning">Login</button>
+                      </form>
+                    </div>
+                <div class="container forms">
+                      <h2>Signup for a new Account if you dont have one yet!</h2>
+                      <form action="/">
+                        <div class="form-group">
+                          <label for="email">Email:</label>
+                          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                        </div>
+                        <div class="form-group">
+                          <label for="pwd">Password:</label>
+                          <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-warning">Signup</button>
+                      </form>
+                    </div>
+
+            </div>
+
+        <div id="buttonclick" class="hidden">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-nav-demo" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand">
+
+                            <span class="glyphicon glyphicon-tags"></span>
+
+                            Eventuous</a>
+
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-nav-demo">
+                        <ul class="nav navbar-nav">
+
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+
+                          
+
+			
+                            <li id="top-event-map-button"><button type="button" class="btn btn-info button-padding">
+			    
+
+ 
+
+	<span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>			   
+	Map View
+    </button>  </li>
+
+    <li id="top-event-list-button"> <button type="button" class="btn btn-info button-padding">
+      <span class="graphic navbar-brand glyphicon glyphicon-tasks"></span> Events List
+    </button> </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+
+	
+
+        <div id="eventDetails" class="hidden">
+             <div class= "container">
+	
+	<div> <button id="back-button" type="button" class="btn btn-info button-padding animated flipInX">
+      <span class="graphic navbar-brand glyphicon glyphicon-share-alt icon-flipped"></span> Go Back
+    </button> </div>
+             
+	<div id="details_list" class="col-lg-4">
+            <div id="eventName" class="animated flipInX"> </div>
+            <div id="eventInfo" class="animated flipInX"> </div>
+	    <div id="eventDate" class="animated flipInX">  </div>
+            <div id="startTime" class="animated flipInX">  </div>
+            
+            <div id="promoter" class="animated flipInX">  </div>
+            
+            <div id="priceRange" class="animated flipInX">  </div>
+
+             <div id="venue" class="animated flipInX">  </div>
+             <div id="venue_address" class="animated flipInX"> </div> 
+	</div> 
+
+            <div id="images" class="animated flipInX col-lg-8 col-md-8 col-sm-6">  </div>
+            
+            <div id = "detailed_map_view" class="col-lg-12 col-sm-12">
+                 <div id="detailed_map"> </div>
+            </div>
+            </div>
+
+            
+        </div>
+	    
+        <div class="filter_input_fields hidden">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input id="classification_filter" type="text" class="form-control" placeholder="Enter event category...">
+                        </div>
+                        <div class="col-sm-4">
+                            <input id="city_filter" type="text" class="form-control" placeholder="Enter city...">
+                        </div>
+                        <div class="col-sm-4">
+                            <input id="country_filter" type="text" class="form-control" placeholder="Enter country code...">
+                        </div>
+                    </div>
+                    <span class="input-group-btn">
+
+                            <button id="filter_button" type="button" class="btn btn-info button-padding animated flipInX">
+      <span class="graphic"></span> Filter
+    </button>
+                    </span>
+                </div>
+        </div>
+
+
+
+        <!-- List of events -->
+        <div class="container">
+        <div id="events_list" class="list-group col-lg-12 col-sm-12"></div>
+        <div id="map_view" class="col-lg-12 col-sm-12">
+            <div id="map"></div>
+        </div>
+
+
+
+
+    </div> 
+    </body>
+</html>
