@@ -12,41 +12,15 @@ var cors = function(req,res,next){
 
 };
 
-var app = express();
-app.use(cors);
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-
-app.get('/', function(req, res, next) {
-    console.log("reached route");
-});
-
-// We are going to do the same thing for the remaining routes.
-app.get('/login',function(req, res){
-    res.send('You are on the login page');
-});
-
-app.get('/logout', function(req, res){
-    res.send('You are on the logout page');
-});
-
-app.get('/polls', function(req, res){
-    res.send('You are on the polls page');
-})
-
-app.get('/user',function(req, res, next) {
-    console.log(req.body);
-    res.send("hi");
-});
-
-
-
 var User = require('./models/UserModel').model;
 
 userHandlers = require('./authController.js');
 var messageHandler = require('./messageController.js');
 
+var app = express();
+app.use(cors);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(function(req,res,next){
 
     if(req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0]==="JWT"){
@@ -76,10 +50,20 @@ app.use(function(req,res,next){
 
 });
 
+
+
 var test_login = function(req){
     console.log("logged in");
     console.log(req.user);
 };
+app.get('/', function(req, res, next) {
+    console.log("reached route");
+});
+
+app.get('/user',function(req, res, next) {
+    console.log(req.body);
+    res.send("hi");
+});
 app.post('/sign_up',userHandlers.sign_up);
 app.post('/sign_in',userHandlers.sign_in);
 app.get('/test_login',userHandlers.login_required,function(req,res){
@@ -93,15 +77,14 @@ app.post('/api/messages',messageHandler.postMessage);
 app.delete('/api/messages/:id',messageHandler.deleteMessage);
 
 
-
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost:27017/test");
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-    console.log("were connected!");
+    console.log("Mongodb server is connected and listening on port 27017");
 });
 
 app.listen(3000,function(){
-    console.log("I am listening");
+    console.log("The server is listening on port 3000");
 });
