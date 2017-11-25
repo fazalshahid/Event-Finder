@@ -86,13 +86,14 @@ app.get('/',function(req,res){
     res.render('./index');
 });
 
-//Event routes
+//My event routes
 app.get('/my_events',myEventHandler.get_events);
 app.post('/my_event',myEventHandler.post_event);
 app.put('/my_event/:id',myEventHandler.put_event);
 app.delete('/my_event/:id',myEventHandler.delete_event);
 
-//
+//Event routes
+app.get('/events'),
 
 
 var mongoose = require('mongoose');
