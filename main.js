@@ -19,7 +19,7 @@ var User = require('./models/UserModel').model;
 
 userHandlers = require('./authController.js');
 var messageHandler = require('./messageController.js');
-var eventHandler = require('./eventController.js');
+var myEventHandler = require('./myEventController.js');
 
 var app = express();
 app.set('view engine', 'ejs');
@@ -87,10 +87,12 @@ app.get('/',function(req,res){
 });
 
 //Event routes
-app.get('/events',eventHandler.get_events);
-app.post('/event',eventHandler.post_event);
-app.put('/event/:id',eventHandler.put_event);
-app.delete('/event/:id',eventHandler.delete_event);
+app.get('/my_events',myEventHandler.get_events);
+app.post('/my_event',myEventHandler.post_event);
+app.put('/my_event/:id',myEventHandler.put_event);
+app.delete('/my_event/:id',myEventHandler.delete_event);
+
+//
 
 
 var mongoose = require('mongoose');

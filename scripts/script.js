@@ -1,7 +1,14 @@
-BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json?size=190&apikey=";
-API_KEY = "27mLqO6JmMfWlES8MKnMVG1tkm75I9cE";
-URL = BASE_URL + API_KEY;
+TICKETMASTER_BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json?size=190&apikey=";
+TICKETMASTER_API_KEY = "27mLqO6JmMfWlES8MKnMVG1tkm75I9cE";
+TICKETMASTER_URL = TICKETMASTER_BASE_URL + TICKETMASTER_API_KEY;
 //https://app.ticketmaster.com/discovery/v2/events.json?apikey=27mLqO6JmMfWlES8MKnMVG1tkm75I9cE
+
+OUR_SERVER_BASE_URL = "http://localhost:3000";
+MY_EVENTS_URL = OUR_SERVER_BASE_URL + "/my_events"
+MY_EVENT_URL = OUR_SERVER_BASE_URL + "/my_event"
+
+SIGNUP_URL = OUR_SERVER_BASE_URL + "/sign_up"
+SIGNIN_URL = OUR_SERVER_BASE_URL + "/sign_in"
 
 //Global? variables
 let map;
@@ -289,7 +296,7 @@ function filter_action (e) {
         let country = $("#country_filter").val();
 
         $.ajax({type:'GET',
-            url: `${URL}&classificationName=${classification}&city=${city}&countryCode=${country}`,
+            url: `${TICKETMASTER_URL}&classificationName=${classification}&city=${city}&countryCode=${country}`,
             success: (res) => {
                 if (Object.prototype.hasOwnProperty.call(res, '_embedded')) {
                     change_view(current_view_type, res._embedded.events);
@@ -312,7 +319,7 @@ function sign_up() {
             password:$('#pwd_sign_up').val()
         },
         //url: 'https://boiling-beach-43004.herokuapp.com/sign_up',
-        url: 'http://localhost:3000/sign_up',
+        url: SIGNUP_URL,
         success: function(data){
             console.log(data);
         }
@@ -330,7 +337,7 @@ function sign_in() {
             email:$('#email_sign_in').val(),
             password:$('#pwd_sign_in').val()
         },
-        url: 'http://localhost:3000/sign_in',
+        url: SIGNIN_URL,
         success: function(res){
             console.log(res.token);
             sessionStorage.setItem('accessToken', res.token);
@@ -361,7 +368,7 @@ function get_my_events(){
     $.ajax({
         type: 'get',
         headers: authHeaders,
-        url: 'http://localhost:3000/events',
+        url: MY_EVENTS_URL,
         success: function(data){
             if(data=="Unauthorized"){
                 console.log("Login required")
@@ -388,7 +395,7 @@ function add_to_my_events(id){
             note:""
         },
         headers:authHeaders,
-        url: 'http://localhost:3000/event',
+        url: MY_EVENT_URL,
         success: function(res){
             console.log(res);
             //get_my_events();
@@ -410,7 +417,7 @@ function edit_my_event(){
         data: {
             note:"abcdef"
         },
-        url: 'http://localhost:3000/event/'+id,
+        url: MY_EVENT_URL+id,
         success: function(res){
             console.log(res);
         }
@@ -428,7 +435,7 @@ function delete_my_event(id){
         type: 'DELETE',
         //contentType: "application/json",
         headers:authHeaders,
-        url: 'http://localhost:3000/event/'+id,
+        url: MY_EVENT_URL+id,
         success: function(res){
             console.log(res);
             get_my_events();
