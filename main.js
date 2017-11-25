@@ -28,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('scripts'));
 app.use(express.static('stylesheets'));
+app.use(express.static('images'));
 /*
 app.use(function(req,res,next){
 
