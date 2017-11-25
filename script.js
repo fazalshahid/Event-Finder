@@ -243,6 +243,42 @@ function filter_action (e) {
         });
     }
 
+function sign_up() {
+    console.log(" Sign up clicked");
+
+    $.ajax({
+        type: 'POST',
+        //contentType: "application/json",
+        data: {
+            email:$('#email_sign_up').val(),
+            password:$('#pwd_sign_up').val()
+        },
+        url: 'http://localhost:3000/sign_up',
+        success: function(data){
+            console.log(data);
+        }
+    });
+
+}
+
+function sign_in() {
+    console.log(" Sign in clicked");
+
+    $.ajax({
+        type: 'POST',
+        //contentType: "application/json",
+        data: {
+            email:$('#email_sign_in').val(),
+            password:$('#pwd_sign_in').val()
+        },
+        url: 'http://localhost:3000/sign_in',
+        success: function(res){
+            console.log(res.token);
+            sessionStorage.setItem('accessToken', res.token);
+        }
+    });
+}
+
 function register_all_callbacks(e) {
 
     $("#back-button").click(function() {
@@ -281,6 +317,10 @@ function register_all_callbacks(e) {
             
         });
     });
+
+    $("#sign_up").click(sign_up);
+    $("#sign_in").click(sign_in);
+
 }
 
 $(document).ready(register_all_callbacks);
