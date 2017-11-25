@@ -167,38 +167,47 @@
 
 </div>
 
-<div class="filter_input_fields hidden">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <input id="classification_filter" type="text" class="form-control" placeholder="Enter event category...">
-            </div>
-            <div class="col-sm-4">
-                <input id="city_filter" type="text" class="form-control" placeholder="Enter city...">
-            </div>
-            <div class="col-sm-4">
-                <input id="country_filter" type="text" class="form-control" placeholder="Enter country code...">
-            </div>
+
+   <div id="admin_msg_box" class="animated flipInX col-md-6 col-lg-2 col-sm-12 hidden">
+            <div id="admin_box"> Hello this is the admin Box</div>
         </div>
-        <span class="input-group-btn">
+
+        <div class="col-md-12 col-sm-4 col-lg-10">
+        <div class="filter_input_fields hidden">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input id="classification_filter" type="text" class="form-control" placeholder="Enter event category...">
+                        </div>
+                        <div class="col-sm-4">
+                            <input id="city_filter" type="text" class="form-control" placeholder="Enter city...">
+                        </div>
+                        <div class="col-sm-4">
+                            <input id="country_filter" type="text" class="form-control" placeholder="Enter country code...">
+                        </div>
+                    </div>
+                    <span class="input-group-btn">
 
                             <button id="filter_button" type="button" class="btn btn-info button-padding animated flipInX">
       <span class="graphic"></span> Filter
     </button>
                     </span>
+
+                </div>
+        </div>
+      
+             <!-- List of events -->
+        <div class="container">
+        <div id="events_list" class="list-group col-lg-12 col-sm-12"></div>
+        <div id="map_view" class="col-lg-12 col-sm-12">
+            <div id="map"></div>
+        </div>
+      </div>
+
+
+       
     </div>
 </div>
-
-
-
-<!-- List of events -->
-<div class="container">
-    <div id="events_list" class="list-group col-lg-12 col-sm-12"></div>
-    <div id="map_view" class="col-lg-12 col-sm-12">
-        <div id="map"></div>
-    </div>
-
-
 
 
 </div>
