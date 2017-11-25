@@ -92,6 +92,8 @@ function detailed_view(id){
 
             $( "#eventDetails" ).removeClass( "hidden" );
              $("#detailed_map_view").show();
+              $('#detailed_map_view').removeClass("animated flipInX").addClass("animated flipInX");
+            
             for (marker of detailed_markers)
                     marker.setMap(null);
             detailed_markers = [];
@@ -238,6 +240,7 @@ function map_view (events) {
    	 }
 
     $("#map_view").show();
+    $('#map_view').removeClass("animated flipInX").addClass("animated flipInX");
     google.maps.event.trigger(map, 'resize');
     map.setCenter(TORONTO);
 }
@@ -257,6 +260,10 @@ function clear_view () {
 
     //Clear search filters
     $(".filter_input_fields").css("visibility", "hidden");
+    $("#admin_msg_box").css("visibility", "hidden");
+
+     $("#admin_msg_box").removeClass("animated flipInX");
+     $(".filter_input_fields").removeClass("animated flipInX");
 }
 
 function change_view(view_type, data) {
@@ -267,11 +274,19 @@ function change_view(view_type, data) {
     else if (view_type == "listing_view") {
         current_view_type = "listing_view";
         $(".filter_input_fields").css("visibility", "visible");
+        $("#admin_msg_box").css("visibility", "visible");
+
+         $("#admin_msg_box").addClass("animated flipInX");
+         $(".filter_input_fields").addClass("animated flipInX");
         listing_view(data);
     }
     else if (view_type == "map_view") {
         current_view_type = "map_view";
         $(".filter_input_fields").css("visibility", "visible");
+        $("#admin_msg_box").css("visibility", "visible");
+
+         $("#admin_msg_box").addClass("animated flipInX");
+         $(".filter_input_fields").addClass("animated flipInX");
         map_view(data);
     }
 
@@ -521,6 +536,12 @@ function register_all_callbacks(e) {
 
     $("#button2").click(function() {
 	$(".filter_input_fields").removeClass("hidden");
+    
+    $(".filter_input_fields").addClass("animated flipInX");
+
+    $("#admin_msg_box").removeClass("hidden");
+    $("#admin_msg_box").addClass("animated flipInX");
+    
         $("#main").slideUp(function () {
             $("#buttonclick").removeClass("hidden");
             change_view("listing_view", current_events);
