@@ -4,13 +4,13 @@ TICKETMASTER_URL = TICKETMASTER_BASE_URL + TICKETMASTER_API_KEY;
 //https://app.ticketmaster.com/discovery/v2/events.json?apikey=27mLqO6JmMfWlES8MKnMVG1tkm75I9cE
 
 OUR_SERVER_BASE_URL = "http://localhost:3000";
-MY_EVENTS_URL = OUR_SERVER_BASE_URL + "/my_events"
-MY_EVENT_URL = OUR_SERVER_BASE_URL + "/my_event"
+MY_EVENTS_URL = OUR_SERVER_BASE_URL + "/my_events";
+MY_EVENT_URL = OUR_SERVER_BASE_URL + "/my_event/";
 
-SIGNUP_URL = OUR_SERVER_BASE_URL + "/sign_up"
-SIGNIN_URL = OUR_SERVER_BASE_URL + "/sign_in"
+SIGNUP_URL = OUR_SERVER_BASE_URL + "/sign_up";
+SIGNIN_URL = OUR_SERVER_BASE_URL + "/sign_in";
 
-EVENTS_URL = OUR_SERVER_BASE_URL + "/events"
+EVENTS_URL = OUR_SERVER_BASE_URL + "/events";
 
 //Global? variables
 let map;
@@ -311,11 +311,16 @@ function filter_action (e) {
         let city = $("#city_filter").val();
         let country = $("#country_filter").val();
 
+        var accessToken = sessionStorage.getItem('accessToken');
+        var authHeaders = {};
+        if (accessToken!='null') {
+            authHeaders.Authorization = "JWT "+accessToken;
+        }
+
         $.ajax({type:'GET',
             url: `${EVENTS_URL}?classificationName=${classification}&city=${city}&countryCode=${country}`,
+            headers: authHeaders,
             success: (res) => {
-                res = JSON.parse(res)
-
                 if (Object.prototype.hasOwnProperty.call(res, '_embedded')) {
                     change_view(current_view_type, res._embedded.events);
                 }
@@ -453,7 +458,7 @@ function delete_my_event(id){
         type: 'DELETE',
         //contentType: "application/json",
         headers:authHeaders,
-        url: MY_EVENT_URL+id,
+        url: MY_EVENT_URL + id,
         success: function(res){
             console.log(res);
             get_my_events();
