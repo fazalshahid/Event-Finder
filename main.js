@@ -20,6 +20,7 @@ var User = require('./models/UserModel').model;
 userHandlers = require('./authController.js');
 var messageHandler = require('./messageController.js');
 var myEventHandler = require('./myEventController.js');
+var eventsHandler = require('./eventController.js');
 
 var app = express();
 app.set('view engine', 'ejs');
@@ -93,7 +94,7 @@ app.put('/my_event/:id',myEventHandler.put_event);
 app.delete('/my_event/:id',myEventHandler.delete_event);
 
 //Event routes
-//app.get('/events'),
+app.get('/events', eventsHandler.get_events_list);
 
 
 var mongoose = require('mongoose');

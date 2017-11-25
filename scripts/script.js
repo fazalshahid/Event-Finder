@@ -10,6 +10,8 @@ MY_EVENT_URL = OUR_SERVER_BASE_URL + "/my_event"
 SIGNUP_URL = OUR_SERVER_BASE_URL + "/sign_up"
 SIGNIN_URL = OUR_SERVER_BASE_URL + "/sign_in"
 
+EVENTS_URL = OUR_SERVER_BASE_URL + "/events"
+
 //Global? variables
 let map;
 let detailed_map;
@@ -310,8 +312,10 @@ function filter_action (e) {
         let country = $("#country_filter").val();
 
         $.ajax({type:'GET',
-            url: `${TICKETMASTER_URL}&classificationName=${classification}&city=${city}&countryCode=${country}`,
+            url: `${EVENTS_URL}?classificationName=${classification}&city=${city}&countryCode=${country}`,
             success: (res) => {
+                res = JSON.parse(res)
+
                 if (Object.prototype.hasOwnProperty.call(res, '_embedded')) {
                     change_view(current_view_type, res._embedded.events);
                 }
