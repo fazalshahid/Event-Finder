@@ -41,33 +41,33 @@
 
     <div class="container forms">
         <h2>Login if you already have an account</h2>
-            <div class="form-group">
-                <label for="email_sign_in">Email:</label>
-                <input type="email" class="form-control" id="email_sign_in" placeholder="Enter email" name="email">
-            </div>
-            <div class="form-group">
-                <label for="pwd_sign_in">Password:</label>
-                <input type="password" class="form-control" id="pwd_sign_in" placeholder="Enter password" name="pwd">
-            </div>
+        <div class="form-group">
+            <label for="email_sign_in">Email:</label>
+            <input type="email" class="form-control" id="email_sign_in" placeholder="Enter email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="pwd_sign_in">Password:</label>
+            <input type="password" class="form-control" id="pwd_sign_in" placeholder="Enter password" name="pwd">
+        </div>
 
-            <button type="submit" id="sign_in" class="btn btn-warning">Login</button>
+        <button type="submit" id="sign_in" class="btn btn-warning">Login</button>
 
-        
+
 
     </div>
     <div class="container forms">
         <h2>Signup for a new Account if you dont have one yet!</h2>
 
-            <div class="form-group">
-                <label for="email_sign_up">Email:</label>
-                <input type="email" class="form-control" id="email_sign_up" placeholder="Enter email" name="email">
-            </div>
-            <div class="form-group">
-                <label for="pwd_sign_up">Password:</label>
-                <input type="password" class="form-control" id="pwd_sign_up" placeholder="Enter password" name="pwd">
-            </div>
+        <div class="form-group">
+            <label for="email_sign_up">Email:</label>
+            <input type="email" class="form-control" id="email_sign_up" placeholder="Enter email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="pwd_sign_up">Password:</label>
+            <input type="password" class="form-control" id="pwd_sign_up" placeholder="Enter password" name="pwd">
+        </div>
 
-            <button type="submit" id="sign_up" class="btn btn-warning">Signup</button>
+        <button type="submit" id="sign_up" class="btn btn-warning">Signup</button>
 
     </div>
 
@@ -104,27 +104,27 @@
 
 
 
-                        <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
-                        Map View
-                    </button>  </li>
+                            <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
+                            Map View
+                        </button>  </li>
 
                     <li id="top-event-list-button"> <button type="button" class="btn btn-info button-padding">
-                        <span class="graphic navbar-brand glyphicon glyphicon-tasks"></span> Events List
-                    </button> </li>
+                            <span class="graphic navbar-brand glyphicon glyphicon-tasks"></span> Events List
+                        </button> </li>
                     <li id="top-my_event-list-button"> <button type="button" class="btn btn-info button-padding">
-                        <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
-                        My events
+                            <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
+                            My events
                         </button>
                     </li>
                     <li id="top-login-button"> <button type="button" class="btn btn-info button-padding">
-                        <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
-                        Login
-                    </button>
+                            <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
+                            Login
+                        </button>
                     </li>
                     <li id="top-logout-button"> <button type="button" class="btn btn-info button-padding">
-                        <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
-                        Logout
-                    </button>
+                            <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
+                            Logout
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -140,8 +140,8 @@
     <div class= "container">
 
         <div> <button id="back-button" type="button" class="btn btn-info button-padding animated flipInX">
-            <span class="graphic navbar-brand glyphicon glyphicon-share-alt icon-flipped"></span> Go Back
-        </button> </div>
+                <span class="graphic navbar-brand glyphicon glyphicon-share-alt icon-flipped"></span> Go Back
+            </button> </div>
 
         <div id="details_list" class="col-lg-4">
             <div id="eventName" class="animated flipInX"> </div>
@@ -167,46 +167,25 @@
 
 </div>
 
-
-
-        <div id="admin_msg_box" class="animated flipInX col-md-6 col-lg-2 col-sm-12 hidden">
-            <div id="admin_box"> Hello this is the admin Box</div>
+<div class="filter_input_fields hidden">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <input id="classification_filter" type="text" class="form-control" placeholder="Enter event category...">
+            </div>
+            <div class="col-sm-4">
+                <input id="city_filter" type="text" class="form-control" placeholder="Enter city...">
+            </div>
+            <div class="col-sm-4">
+                <input id="country_filter" type="text" class="form-control" placeholder="Enter country code...">
+            </div>
         </div>
-
-        <div class="col-md-12 col-sm-4 col-lg-10">
-        <div class="filter_input_fields hidden">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <input id="classification_filter" type="text" class="form-control" placeholder="Enter event category...">
-                        </div>
-                        <div class="col-sm-4">
-                            <input id="city_filter" type="text" class="form-control" placeholder="Enter city...">
-                        </div>
-                        <div class="col-sm-4">
-                            <input id="country_filter" type="text" class="form-control" placeholder="Enter country code...">
-                        </div>
-                    </div>
-                    <span class="input-group-btn">
+        <span class="input-group-btn">
 
                             <button id="filter_button" type="button" class="btn btn-info button-padding animated flipInX">
       <span class="graphic"></span> Filter
     </button>
                     </span>
-
-                </div>
-        </div>
-      
-             <!-- List of events -->
-        <div class="container">
-        <div id="events_list" class="list-group col-lg-12 col-sm-12"></div>
-        <div id="map_view" class="col-lg-12 col-sm-12">
-            <div id="map"></div>
-        </div>
-      </div>
-
-
-       
     </div>
 </div>
 
