@@ -93,7 +93,7 @@ app.put('/my_event/:id',myEventHandler.put_event);
 app.delete('/my_event/:id',myEventHandler.delete_event);
 
 //Event routes
-app.get('/events'),
+//app.get('/events'),
 
 
 var mongoose = require('mongoose');
