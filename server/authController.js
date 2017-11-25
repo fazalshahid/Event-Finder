@@ -31,12 +31,12 @@ exports.sign_up = function(req,res){
                     pass: "devdev12"
                 }
             });
-
+            var header_msg = "Thank you for registering at Eventous. Please click the link below to confirm registration"
             var mailOptions = {
                 from: "dev.enguoft2017@gmail.com",
                 to: req.body.email,
                 subject: "Confirm Sign Up",
-                html: '<p>'+APP_URL+CONFIRM_URL+","+user.link+'</p>'
+                html: '<p>'+header_msg+'<br>'+APP_URL+CONFIRM_URL+","+user.link+'</p>'
                 //html: "<a href=\"koku\"/>"
             };
 
@@ -76,7 +76,7 @@ exports.login_required = function(req,res,next){
     console.log("comes to required");
     if (req.user) {
         console.log("req user is not empty");
-        next();
+        return next();
     } else {
         return res.status(401).json({ message: 'Unauthorized user!' });
     }
@@ -119,7 +119,7 @@ exports.confirm_sign_up=function(req,res){
 function createToken(user){
     console.log("token"+user._id);
     var payload = {
-        sub:user._id,
+        sub:user.email,
         iat : moment().unix(),
         exp: moment().add(14,'days').unix()
 
