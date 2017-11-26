@@ -10,46 +10,15 @@ var jwt = require("jwt-simple");
 var moment = require("moment");
 
 exports.sign_up = function(req,res){
-    var newUser = new TempUser(req.body);
+    var newUser = new User(req.body);
     newUser.hash_password = bcrypt.hashSync(req.body.password, 10);
-    newUser.link = bcrypt.hashSync(req.body.email, 10);
     newUser.save(function(err, user) {
         if (err) {
             console.log("error happened");
-            return res.status(400).send({
-                message: err
-            });
+            return res.status(200).send("error");
         } else {
             console.log(" user saved");
-            user.hash_password = undefined;
-            var nodemailer = require("nodemailer");
-
-            var transporter = nodemailer.createTransport({
-                service: "gmail",
-                auth:{
-                    user:"dev.enguoft2017@gmail.com",
-                    pass: "devdev12"
-                }
-            });
-            var header_msg = "Thank you for registering at Eventous. Please click the link below to confirm registration"
-            var mailOptions = {
-                from: "dev.enguoft2017@gmail.com",
-                to: req.body.email,
-                subject: "Confirm Sign Up",
-                html: '<p>'+header_msg+'<br>'+APP_URL+CONFIRM_URL+","+user.link+'</p>'
-                //html: "<a href=\"koku\"/>"
-            };
-
-            transporter.sendMail(mailOptions, function(error, info) {
-                if (error) {
-                    console.log(error);
-
-                } else {
-                    console.log('Message sent: ' + info.response);
-                }
-            });
-
-            return res.json(user);
+            return res.json({token: createToken(user)});
         }
     });
 };

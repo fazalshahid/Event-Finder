@@ -343,8 +343,21 @@ function sign_up() {
         },
         //url: 'https://boiling-beach-43004.herokuapp.com/sign_up',
         url: SIGNUP_URL,
-        success: function(data){
-            console.log(data);
+        success: function(res){
+            if(res=="error"){
+               console.log( "Username is already taken");
+            }
+            else {
+
+                sessionStorage.setItem('accessToken', res.token);
+                login_status = "logged_in";
+                home_page();
+            }
+        },
+        statusCode: {
+            400: function (response) {
+                console.log("Username is already taken");
+            }
         }
     });
 
