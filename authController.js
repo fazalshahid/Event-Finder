@@ -16,6 +16,7 @@ exports.sign_up = function(req,res){
     newUser.save(function(err, user) {
         if (err) {
             console.log("error happened");
+            console.log(err);
             return res.status(400).send({
                 message: err
             });

@@ -18,7 +18,7 @@ var cors = function(req,res,next){
 var User = require('./models/UserModel').model;
 
 userHandlers = require('./authController.js');
-var messageHandler = require('./messageController.js');
+var messageHandler = require('./adminController.js');
 var myEventHandler = require('./myEventController.js');
 var eventsHandler = require('./eventController.js');
 
@@ -80,6 +80,10 @@ app.get('/test_login',userHandlers.login_required,function(req,res){
 
 });
 app.get('/confirm_sign_up*',userHandlers.confirm_sign_up);
+
+
+//admin Routes
+
 app.get('/api/messages',messageHandler.getMessages);
 app.post('/api/messages',messageHandler.postMessage);
 app.delete('/api/messages/:id',messageHandler.deleteMessage);
@@ -98,7 +102,10 @@ app.get('/events', eventsHandler.get_events_list);
 
 
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:27017/test");
+mongoose.connect("mongodb://localhost:27017/test", {
+  useMongoClient: true,
+  /* other options */
+});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
