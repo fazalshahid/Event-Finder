@@ -367,7 +367,7 @@ function sign_up() {
 
 function sign_in() {
     console.log(" Sign in clicked");
-
+    var email = $('#email_sign_in').val();
     $.ajax({
         type: 'POST',
         //contentType: "application/json",
@@ -377,6 +377,11 @@ function sign_in() {
         },
         url: SIGNIN_URL,
         success: function(res){
+
+            if(email=="admin@admin.com"){
+                 //$("#register-login").addClass("hidden");
+                $("#admin_only").removeClass("hidden");
+            }
             console.log(res.token);
             sessionStorage.setItem('accessToken', res.token);
             sessionStorage.setItem('user_name', res.user_name);
@@ -392,6 +397,7 @@ function sign_out(){
         sessionStorage.setItem('login_status', 'logged_out');
         $("#top-login-button").removeClass("hidden");
         $("#top-logout-button").addClass("hidden");
+        $("#admin_only").addClass("hidden");
         home_page();
 
 }
