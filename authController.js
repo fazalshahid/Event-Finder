@@ -16,6 +16,7 @@ exports.sign_up = function(req,res){
         if (err) {
             console.log("error happened");
             return res.status(200).send("error");
+
         } else {
             console.log(" user saved");
             return res.json({token: createToken(user)});
