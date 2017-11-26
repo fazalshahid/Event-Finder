@@ -19,6 +19,6 @@ var AdminSchema = new Schema({
 
 
 
-exports.model = mongoose.model('Event',AdminSchema);
+exports.model = mongoose.model('Admin',AdminSchema);
 
 

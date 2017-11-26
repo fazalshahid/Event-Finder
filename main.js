@@ -16,6 +16,7 @@ var cors = function(req,res,next){
 */
 
 var User = require('./models/UserModel').model;
+var Event = require('./models/EventModel').model;
 
 userHandlers = require('./authController.js');
 var messageHandler = require('./adminController.js');

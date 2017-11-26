@@ -30,7 +30,6 @@ var EventSchema = new Schema({
 );
 
 
-
 exports.model = mongoose.model('Event',EventSchema);
 
 

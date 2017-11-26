@@ -1,5 +1,6 @@
 var jwt = require("jwt-simple");
 var moment = require("moment");
+//var Event = require('./models/EventModel').model;
 var Event = require('./models/EventModel').model;
 const request = require('request');
 var ObjectId = require('mongodb').ObjectID;
