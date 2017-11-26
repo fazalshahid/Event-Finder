@@ -350,6 +350,8 @@ function sign_up() {
             else {
 
                 sessionStorage.setItem('accessToken', res.token);
+                sessionStorage.setItem('user_name', res.user_name);
+                sessionStorage.setItem('login_status', 'logged_in');
                 login_status = "logged_in";
                 home_page();
             }
@@ -377,7 +379,8 @@ function sign_in() {
         success: function(res){
             console.log(res.token);
             sessionStorage.setItem('accessToken', res.token);
-            login_status = "logged_in";
+            sessionStorage.setItem('user_name', res.user_name);
+            sessionStorage.setItem('login_status', 'logged_in');
             home_page();
         }
     });
@@ -386,7 +389,7 @@ function sign_in() {
 function sign_out(){
 
         sessionStorage.setItem('accessToken', null);
-        login_status = "logged_out";
+        sessionStorage.setItem('login_status', 'logged_out');
         $("#top-login-button").removeClass("hidden");
         $("#top-logout-button").addClass("hidden");
         home_page();
@@ -482,13 +485,15 @@ function delete_my_event(id){
 
 function set_login_logout_button(){
 
-    if(login_status=="logged_in") {
+    if(sessionStorage.getItem("login_status")=="logged_in") {
         $("#top-login-button").addClass("hidden");
         $("#top-logout-button").removeClass("hidden");
+        $("#user_name").append('<label>'+'Logged in as '+sessionStorage.getItem("user_name")+'</label>');
     }
     else{
         $("#top-login-button").removeClass("hidden");
         $("#top-logout-button").addClass("hidden");
+        $("#user_name").empty();
     }
 
 }
@@ -527,6 +532,8 @@ function show_login_button(){
 function show_logout_button(){
     $("#top-login-button").addClass("hidden");
     $("#top-logout-button").removeClass("hidden");
+    $("#user_name").append('<label>'+'Logged in as '+sessionStorage.getItem("user_name")+'</label>');
+
 }
 
 

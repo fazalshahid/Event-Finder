@@ -19,7 +19,7 @@ exports.sign_up = function(req,res){
 
         } else {
             console.log(" user saved");
-            return res.json({token: createToken(user)});
+            return res.json({token: createToken(user), user_name:user.email});
         }
     });
 };
@@ -35,7 +35,7 @@ exports.sign_in = function(req,res){
             if (!user.comparePassword(req.body.password)) {
                 res.status(401).json({ message: 'Authentication failed. Wrong password.' });
             } else {
-                return res.json({token: createToken(user)});
+                return res.json({token: createToken(user),user_name:user.email});
             }
         }
     });
