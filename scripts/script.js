@@ -25,6 +25,7 @@ let current_view_type = "listing_view";
 let current_events = [];
 let scroll=0;
 let login_status = "logged_out";
+let admin = "false";
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -384,6 +385,8 @@ function sign_in() {
             if(email=="admin@admin.com"){
                  //$("#register-login").addClass("hidden");
                 $("#admin_only").removeClass("hidden");
+
+                admin = "true";
             }
 
             //Upon successful login display the admin messages in the admin box
@@ -444,8 +447,15 @@ function appendAdminMessages(data){
 
 
                           $("#admin_messages").append(`
-                          <li class="msg_text">${data[i].text}</li>
-                          `);
+                          <li class="msg_text">${data[i].text}</li>`);
+
+
+                if(admin == "true"){
+                         $("#admin_messages").append(`  <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding">
+                              <span class="graphic"></span>Delete
+                            </button> `);
+
+                }
 
 
 
@@ -456,6 +466,7 @@ function appendAdminMessages(data){
 
 function sign_out(){
 
+        admin = "false";
         sessionStorage.setItem('accessToken', null);
         sessionStorage.setItem('login_status', 'logged_out');
         $("#top-login-button").removeClass("hidden");
