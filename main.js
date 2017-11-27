@@ -88,6 +88,9 @@ app.get('/confirm_sign_up*',userHandlers.confirm_sign_up);
 app.get('/api/messages',messageHandler.getMessages);
 app.post('/api/messages',messageHandler.postMessage);
 app.delete('/api/messages/:id',messageHandler.deleteMessage);
+
+
+//Index Route
 app.get('/',function(req,res){
     res.render('./index');
 });

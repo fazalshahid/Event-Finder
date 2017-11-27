@@ -12,6 +12,9 @@ SIGNIN_URL = OUR_SERVER_BASE_URL + "/sign_in";
 
 EVENTS_URL = OUR_SERVER_BASE_URL + "/events";
 
+ADMIN_GET_URL = OUR_SERVER_BASE_URL + "/api/messages";
+ADMIN_POST_URL = OUR_SERVER_BASE_URL + "/api/messages";
+
 //Global? variables
 let map;
 let detailed_map;
@@ -382,6 +385,12 @@ function sign_in() {
                  //$("#register-login").addClass("hidden");
                 $("#admin_only").removeClass("hidden");
             }
+
+            //Upon successful login display the admin messages in the admin box
+            //fetch the admin messages below:
+
+            fetch_admin_messages();
+
             console.log(res.token);
             sessionStorage.setItem('accessToken', res.token);
             sessionStorage.setItem('user_name', res.user_name);
@@ -390,6 +399,60 @@ function sign_in() {
         }
     });
 }
+
+function fetch_admin_messages(){
+
+
+    var authHeaders = {};
+    var accessToken = sessionStorage.getItem('accessToken');
+    if (accessToken!='null') {
+        authHeaders.Authorization = "JWT "+accessToken;
+    }
+    else{
+        return "Not authorized to get admin messages yet";
+    }
+
+    console.log("Making ajax call to get admin messages");
+    $.ajax({
+        type: 'GET',
+
+        headers:authHeaders,
+        url: ADMIN_GET_URL,
+
+        success: function(data){
+            console.log(data);
+            //get_my_events();
+            if(data=="Unauthorized"){
+                console.log("Login required")
+            }
+            else {
+                console.log("admin msgs received : " + data);
+                appendAdminMessages(data);
+                //console.log("admin msgs received : " + data[0].text);
+                //change_view("my_events_view", data);
+            }
+        }
+    });
+
+}
+
+function appendAdminMessages(data){
+
+                    $("#admin_messages").empty();
+
+                    for(var i=data.length-1; i>=0; i--) {
+
+
+                          $("#admin_messages").append(`
+                          <li class="msg_text">${data[i].text}</li>
+                          `);
+
+
+
+                    } //end of for loop
+}
+
+
 
 function sign_out(){
 
@@ -550,6 +613,36 @@ function login_page(){
     hide_top_buttons();
 
 }
+
+function admin_post(){
+    var msg = $("#admin_textbox").val(); //extract msg from box
+    $("#admin_textbox").val(""); //clear the text box
+
+    //alert("Message is "+msg);
+
+    var authHeaders = {};
+    var accessToken = sessionStorage.getItem('accessToken');
+    if (accessToken!='null') {
+        authHeaders.Authorization = "JWT "+accessToken;
+    }
+    $.ajax({
+        type: 'POST',
+
+        //contentType: "application/json",
+        data: {
+            msg:msg
+        },
+
+        headers:authHeaders,
+        url: ADMIN_POST_URL,
+
+        success: function(res){
+            console.log(res);
+            //get_my_events();
+        }
+    });
+}
+
 function register_all_callbacks(e) {
 
     $("#back-button").click(function() {
@@ -603,6 +696,12 @@ function register_all_callbacks(e) {
 
     $("#sign_up").click(sign_up);
     $("#sign_in").click(sign_in);
+
+
+
+     $("#post_button").click(admin_post);
+
+     setInterval(fetch_admin_messages, 5000);
 
 }
 

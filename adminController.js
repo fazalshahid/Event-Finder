@@ -9,18 +9,18 @@ var session = require('./sessionController.js');
 
 
 function getMessages(req,res,user){
-    console.log(user);
-    Event.find({email:user.email},function(err,events){
+    console.log("In get messages and getting all admin messages");
+    Admin.find({},function(err,messages){
 
         if(err){
             return res.status(404).send(err);
         }
 
         else {
-            console.log("got here");
+            console.log("found events");
 
-            console.log(events);
-            return res.status(200).json(events);
+            console.log(messages);
+            return res.status(200).json(messages);
             //res.status(200).json(_events);
             //next();
 
@@ -30,33 +30,27 @@ function getMessages(req,res,user){
 
 function postMessage(req,res,user){
     var id = req.body.id;
-    var url_string= "https://app.ticketmaster.com/discovery/v2/events/" + id + ".json?apikey=27mLqO6JmMfWlES8MKnMVG1tkm75I9cE" ;
-    request.get(url_string, function (err,_res, data) {
-        if(err) {
-            res.status(200).send("Error");
-        } else {
-            event = new Event();
-            data = JSON.parse(data);
-            event.name=data.name;
-            event.email = user.email;
-            event.note = req.body.note;
-            if( Object.prototype.hasOwnProperty.call(data, 'dates')) {
-                event.date = data.dates.start.localDate;
-                event.time = data.dates.start.localTime;
-            }
-            event.event_id = id;
-            event.save(function(err,saved){
+    
+    console.log("In postMessage function after succeeding authentication");
+
+            admin = new Admin();
+            data = req.body.msg;
+
+            console.log("Msg received is :" + data);
+
+            //console.log("after");
+
+            admin.text=data;
+            
+            admin.save(function(err,saved){
                 if(err){
                     return res.status(200).send(err);
                 }
                 else{
-                    return res.status(200).send("success");
+                    return res.status(200).send("successfully saved in database");
                 }
             });
-
-        }
-    });
-
+ 
 
 }
 
@@ -81,7 +75,7 @@ function deleteMessage(req,res,user){
 
 exports.getMessages = function(req,res){
 
-//check if request is from admin or client because we would be
+//Clients and Admin both can get messages posted by Admin so authentication is common.
     session.authenticate(req,res,getMessages);
 
 }
@@ -89,15 +83,50 @@ exports.getMessages = function(req,res){
 exports.postMessage = function(req,res){
 
     //only admin can post a msg
-    session.admin_authenticate(req,res,postMessage);
+    console.log("REceived POST request for admin msg");
 
+    var payload = jwt.decode((req.headers.authorization).split(" ")[1], 'secret');
+            
+    console.log(("In postMessage adminController and checking email first ") + payload.sub);
+
+    var email = payload.sub;
+    
+    if(email == "admin@admin.com"){
+             session.authenticate(req,res,postMessage);
+        
+        }
+        else{
+            return res.status(401).send("Unauthorized..Only Admin can access this");
+        }
+
+    // console.log(request.body.user.name);
+    //console.log(request.body.user.email);
+    //console.log("leaving");
+   
     }
 
 
 exports.deleteMessage = function(req,res){
 
     //only admin can delete a msg
-    session.admin_authenticate(req,res,deleteMessage);
+
+
+    console.log("REceived Delete request for admin msg");
+
+    var payload = jwt.decode((req.headers.authorization).split(" ")[1], 'secret');
+            
+    console.log(("In postMessage adminController and checking email first ") + payload.sub);
+
+    var email = payload.sub;
+    
+    if(email == "admin@admin.com"){
+            session.authenticate(req,res,deleteMessage);
+        
+        }
+        else{
+            return res.status(401).send("Unauthorized..Only Admin can access this");
+        }
+   
 }
 
 
