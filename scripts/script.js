@@ -393,7 +393,7 @@ function is_logged_in() {
  
 function auth_headers() {
     if (is_logged_in())
-        return {Authorization: "JWT" + read_cookie('accessToken')}
+        return {Authorization: "JWT " + read_cookie('accessToken')}
     else return {}
 }
 
@@ -512,38 +512,18 @@ function fetch_admin_messages(){
 }
 
 function appendAdminMessages(data){
+    $("#admin_messages").empty();
 
-                    $("#admin_messages").empty();
-
-                    for(var i=data.length-1; i>=0; i--) {
-
-
-                          $("#admin_messages").append(`
-                          <li class="msg_text">${data[i].text}</li>`);
-
-
+    for(var i=data.length-1; i>=0; i--) {
+        $("#admin_messages").append(`
+            <li class="msg_text">${data[i].text}</li>`);
                 if(admin == "true"){
-                         $("#admin_messages").append(`  <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding">
-                              <span class="graphic"></span>Delete
+                    $("#admin_messages").append(
+                        `   <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding">
+                                <span class="graphic"></span>Delete
                             </button> `);
-
                 }
-
-
-
-                    } //end of for loop
-}
-
-function sign_out(){
-
-        admin = "false";
-        sessionStorage.setItem('accessToken', null);
-        sessionStorage.setItem('login_status', 'logged_out');
-        $("#top-login-button").removeClass("hidden");
-        $("#top-logout-button").addClass("hidden");
-        $("#admin_only").addClass("hidden");
-        home_page();
-
+    } //end of for loop
 }
 
 function get_my_events(){
