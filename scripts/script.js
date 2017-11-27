@@ -24,8 +24,8 @@ let detailed_markers=[];
 let current_view_type = "listing_view";
 let current_events = [];
 let scroll=0;
-let login_status = "logged_out";
 let admin = "false";
+let default_cookie_expiration = 2*24*60*60 //2 days
 
 
 
@@ -350,22 +350,58 @@ function filter_action (e) {
 }
 
 
-function is_logged_in() { 
-    return (sessionStorage.getItem("login_status")=="logged_in"); 
-} 
- 
-function logged_in_username() { 
-    return sessionStorage.getItem("user_name"); 
+function write_cookie(name, value, expiration) {
+    var date = new Date();
+    if (!expiration)
+        expiration = default_cookie_expiration;
+    date.setTime(date.getTime() + expiration);
+    var expires = "expires=" + date.toUTCString();
+
+    document.cookie = name + "=" + value + ";" +  expires + "; path=/";
 }
 
-function auth_headers() {
-    var accessToken = sessionStorage.getItem('accessToken');
-    var authHeaders = {};
-    if (accessToken!='null') {
-        authHeaders.Authorization = "JWT "+accessToken;
+function read_cookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
-    return authHeaders;
+    return "";
 }
+
+function set_session(response) {
+    write_cookie('status', 'logged_in');
+    write_cookie('accessToken', response.token);
+    write_cookie('username', response.user_name);
+}
+
+function clear_session(response) {
+    write_cookie('status', "");
+    write_cookie('accessToken', "");
+    write_cookie('username', "");
+}
+
+function is_logged_in() { 
+    return (read_cookie('status') != "");
+} 
+ 
+function auth_headers() {
+    if (is_logged_in())
+        return {Authorization: "JWT" + read_cookie('accessToken')}
+    else return {}
+}
+
+function logged_in_username() { 
+    return read_cookie('username');
+}
+
+
 
 function sign_up() {
     console.log(" Sign up clicked");
@@ -384,11 +420,7 @@ function sign_up() {
                console.log( "Username is already taken");
             }
             else {
-
-                sessionStorage.setItem('accessToken', res.token);
-                sessionStorage.setItem('user_name', res.user_name);
-                sessionStorage.setItem('login_status', 'logged_in');
-                login_status = "logged_in";
+                set_session(res);
                 home_page();
             }
         },
@@ -424,24 +456,20 @@ function sign_in() {
             //Upon successful login display the admin messages in the admin box
             //fetch the admin messages below:
 
+            set_session(res);
             fetch_admin_messages();
-
-            console.log(res.token);
-            sessionStorage.setItem('accessToken', res.token);
-            sessionStorage.setItem('user_name', res.user_name);
-            sessionStorage.setItem('login_status', 'logged_in');
             home_page();
         }
     });
 }
 
 function sign_out(){
-        sessionStorage.setItem('accessToken', null);
-        sessionStorage.setItem('login_status', 'logged_out');
+        clear_session();
         $("#top-login-button").removeClass("hidden");
         $("#top-logout-button").addClass("hidden");
         $("#admin_only").addClass("hidden");
         change_view("login_view");
+        set_login_logout_button();
 }
 
 function set_login_logout_button() {
