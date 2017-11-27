@@ -35,7 +35,6 @@ function initMap() {
 
    $("#map_view").hide();
    initDetailedMap();
-   
 }
 
 function initDetailedMap() {
@@ -181,8 +180,8 @@ function listing_view(events) {
 		    scroll=0;
 		}    
 }
-function my_events_view(events) {
 
+function my_events_view(events) {
     //current_events = events;
     for(let i=0; i<events.length; i++) {
         $("#events_list").append(
@@ -225,7 +224,6 @@ function my_events_view(events) {
         scroll=0;
     }
 }
-
 
 function map_view (events) {
     current_events = events;
@@ -270,19 +268,19 @@ function clear_view () {
     $("#map_view").hide();
 
     //Clear search filters
-     $("#admin_msg_box").css("visibility", "hidden");       
-       $(".filter_input_fields").css("visibility", "hidden");     
-       $("#admin_msg_box").removeClass("animated flipInX");       
-       $(".filter_input_fields").removeClass("animated flipInX");
-   
-
+    $("#admin_msg_box").css("visibility", "hidden");       
+    $(".filter_input_fields").css("visibility", "hidden");     
+    $("#admin_msg_box").removeClass("animated flipInX");       
+    $(".filter_input_fields").removeClass("animated flipInX");
 }
 
 function change_view(view_type, data) {
     clear_view();
 
-    if (view_type == "detailed_view")
+    if (view_type == "detailed_view") {
+        current_view_type = "detailed_view";
         detailed_view(data);
+    }
     else if (view_type == "listing_view") {
         current_view_type = "listing_view";
         $(".filter_input_fields").css("visibility", "visible");
@@ -301,13 +299,11 @@ function change_view(view_type, data) {
         $(".filter_input_fields").addClass("animated flipInX");
         map_view(data);
     }
-
     else if (view_type == "my_events_view") {
         current_view_type = "my_events_view";
         //$(".filter_input_fields").css("visibility", "visible");
         my_events_view(data);
     }
-   
 }
 
 function filter_action (e) {
@@ -403,6 +399,52 @@ function sign_in() {
     });
 }
 
+function sign_out(){
+
+        sessionStorage.setItem('accessToken', null);
+        sessionStorage.setItem('login_status', 'logged_out');
+        $("#top-login-button").removeClass("hidden");
+        $("#top-logout-button").addClass("hidden");
+        $("#admin_only").addClass("hidden");
+        home_page();
+
+}
+
+function set_login_logout_button(){
+
+    if(sessionStorage.getItem("login_status")=="logged_in") {
+        $("#top-login-button").addClass("hidden");
+        $("#top-logout-button").removeClass("hidden");
+        $("#user_name").append('<label>'+'Logged in as '+sessionStorage.getItem("user_name")+'</label>');
+    }
+    else{
+        $("#top-login-button").removeClass("hidden");
+        $("#top-logout-button").addClass("hidden");
+        $("#user_name").empty();
+    }
+
+}
+
+function show_login_button(){
+    $("#top-login-button").removeClass("hidden");
+    $("#top-logout-button").addClass("hidden");
+}
+
+function show_logout_button(){
+    $("#top-login-button").addClass("hidden");
+    $("#top-logout-button").removeClass("hidden");
+    $("#user_name").append('<label>'+'Logged in as '+sessionStorage.getItem("user_name")+'</label>');
+
+}
+
+function login_page(){
+    clear_view();
+    $("#register-login").removeClass("hidden");
+    hide_top_buttons();
+
+}
+
+
 function fetch_admin_messages(){
 
 
@@ -436,7 +478,6 @@ function fetch_admin_messages(){
             }
         }
     });
-
 }
 
 function appendAdminMessages(data){
@@ -461,8 +502,6 @@ function appendAdminMessages(data){
 
                     } //end of for loop
 }
-
-
 
 function sign_out(){
 
@@ -499,6 +538,7 @@ function get_my_events(){
         }
     });
 }
+
 function add_to_my_events(id){
     var authHeaders = {};
     var accessToken = sessionStorage.getItem('accessToken');
@@ -520,8 +560,8 @@ function add_to_my_events(id){
             //get_my_events();
         }
     });
-
 }
+
 function edit_my_event(){
     var id="1234";
     var authHeaders = {};
@@ -541,8 +581,8 @@ function edit_my_event(){
             console.log(res);
         }
     });
-
 }
+
 function delete_my_event(id){
     var accessToken = sessionStorage.getItem('accessToken');
     var authHeaders = {};
@@ -560,35 +600,17 @@ function delete_my_event(id){
             get_my_events();
         }
     });
-
 }
 
-function set_login_logout_button(){
 
-    if(sessionStorage.getItem("login_status")=="logged_in") {
-        $("#top-login-button").addClass("hidden");
-        $("#top-logout-button").removeClass("hidden");
-        $("#user_name").append('<label>'+'Logged in as '+sessionStorage.getItem("user_name")+'</label>');
-    }
-    else{
-        $("#top-login-button").removeClass("hidden");
-        $("#top-logout-button").addClass("hidden");
-        $("#user_name").empty();
-    }
-
-}
-
-function home_page(){
-
-        $("#register-login").addClass("hidden");
+function home_page() {
+    $("#register-login").addClass("hidden");
     $(".filter_input_fields").removeClass("hidden");
     $("#main").slideUp(function () {
         $("#buttonclick").removeClass("hidden");
         change_view("listing_view", current_events);
         set_login_logout_button();
     });
-
-
 }
 
 function hide_top_buttons(){
@@ -605,25 +627,6 @@ function show_top_buttons(){
     //$("#top-event-map-button").addClass("hidden");
 }
 
-function show_login_button(){
-    $("#top-login-button").removeClass("hidden");
-    $("#top-logout-button").addClass("hidden");
-}
-function show_logout_button(){
-    $("#top-login-button").addClass("hidden");
-    $("#top-logout-button").removeClass("hidden");
-    $("#user_name").append('<label>'+'Logged in as '+sessionStorage.getItem("user_name")+'</label>');
-
-}
-
-
-
-function login_page(){
-    clear_view();
-    $("#register-login").removeClass("hidden");
-    hide_top_buttons();
-
-}
 
 function admin_post(){
     var msg = $("#admin_textbox").val(); //extract msg from box
@@ -713,7 +716,6 @@ function register_all_callbacks(e) {
      $("#post_button").click(admin_post);
 
      setInterval(fetch_admin_messages, 5000);
-
 }
 
 $(document).ready(register_all_callbacks);
