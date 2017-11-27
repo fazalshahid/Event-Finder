@@ -493,27 +493,29 @@ function set_login_logout_button() {
 
 
 function fetch_admin_messages(){
-    console.log("Making ajax call to get admin messages");
-    $.ajax({
-        type: 'GET',
+    if (is_logged_in()) {
+        console.log("Making ajax call to get admin messages");
+        $.ajax({
+            type: 'GET',
 
-        headers:auth_headers(),
-        url: ADMIN_GET_URL,
+            headers:auth_headers(),
+            url: ADMIN_GET_URL,
 
-        success: function(data){
-            console.log(data);
-            //get_my_events();
-            if(data=="Unauthorized"){
-                console.log("Login required")
+            success: function(data){
+                console.log(data);
+                //get_my_events();
+                if(data=="Unauthorized"){
+                    console.log("Login required")
+                }
+                else {
+                    console.log("admin msgs received : " + data);
+                    appendAdminMessages(data);
+                    //console.log("admin msgs received : " + data[0].text);
+                    //change_view("my_events_view", data);
+                }
             }
-            else {
-                console.log("admin msgs received : " + data);
-                appendAdminMessages(data);
-                //console.log("admin msgs received : " + data[0].text);
-                //change_view("my_events_view", data);
-            }
-        }
-    });
+        });
+    }
 }
 
 function appendAdminMessages(data){

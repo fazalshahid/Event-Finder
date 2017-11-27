@@ -38,15 +38,12 @@ function get_events_list(req, res) {
                                             data._embedded.events[i].in_my_events = false;
                                         }
                                     }
-
-                                    console.log(data._embedded.events[0].in_my_events);
                                     res.status(200).send(data)
                                 }
                         });
                     },
                     function (err) { //Don't do anything, just return
                         console.log("promise is failing");
-                        console.log(err);
                         res.status(200).json(data);
                     }
                 );

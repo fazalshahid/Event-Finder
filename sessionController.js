@@ -12,10 +12,8 @@ function authenticate(req,res,action){
     //console.log(req.headers)
     is_logged_in(req, res).then(
         function (user) {
-            console.log("is_logged_in succeeded")
             action(req, res, user);},
         function (err) {
-            console.log("is_logged_in failed");
             res.status(200).send("Unauthorized")
         });
 }
