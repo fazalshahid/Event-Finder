@@ -23,7 +23,7 @@ function get_events_list(req, res) {
                         Event.find({email:user.email},
                             function(err,events) {
                                 if(err){
-                                    res.status(200).json(data); //lol
+                                    res.status(200).json(JSON.parse(data)); //lol
                                 }
                                 else {
                                     console.log(">>>Getting to logged in user part")
@@ -38,13 +38,13 @@ function get_events_list(req, res) {
                                             data._embedded.events[i].in_my_events = false;
                                         }
                                     }
-                                    res.status(200).send(data)
+                                    res.status(200).json(data);
                                 }
                         });
                     },
                     function (err) { //Don't do anything, just return
                         console.log("promise is failing");
-                        res.status(200).json(data);
+                        res.status(200).json(JSON.parse(data));
                     }
                 );
             }
