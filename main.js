@@ -1,3 +1,5 @@
+var MONGO_URL = "mongodb://tit_309:tit309@ds121686.mlab.com:21686/tit309";
+var LOCAL_MONGO_URL = "mongodb://localhost:27017/test";
 var express = require('express');
 var path = require('path');
 
@@ -106,7 +108,8 @@ app.get('/events', eventsHandler.get_events_list);
 
 
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:27017/test", {
+var urlt = "mongodb://csc309f:csc309fall@ds117316.mlab.com:17316/csc309db"
+mongoose.connect(MONGO_URL, {
   useMongoClient: true,
   /* other options */
 });
@@ -116,6 +119,6 @@ db.once('open', function() {
     console.log("Mongodb server is connected and listening on port 27017");
 });
 
-app.listen(3000,function(){
+app.listen(process.env.PORT || 3000,function(){
     console.log("The server is listening on port 3000");
 });
