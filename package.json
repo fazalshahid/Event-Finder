@@ -27,5 +27,8 @@
     "moment": "^2.19.2",
     "mongoose": "^4.13.5",
     "nodemailer": "^4.4.0"
+  },
+  "engines": {
+    "node": "8.9.1"
   }
 }
