@@ -27,6 +27,9 @@ let scroll=0;
 let login_status = "logged_out";
 let admin = "false";
 
+
+
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
@@ -280,7 +283,6 @@ function clear_view () {
 
 function login_view() {
     $("#login-form").removeClass("hidden");
-    //hide_top_buttons();
 }
 
 function register_view() {
@@ -333,15 +335,9 @@ function filter_action (e) {
         let city = $("#city_filter").val();
         let country = $("#country_filter").val();
 
-        var accessToken = sessionStorage.getItem('accessToken');
-        var authHeaders = {};
-        if (accessToken!='null') {
-            authHeaders.Authorization = "JWT "+accessToken;
-        }
-
         $.ajax({type:'GET',
             url: `${EVENTS_URL}?classificationName=${classification}&city=${city}&countryCode=${country}`,
-            headers: authHeaders,
+            headers: auth_headers(),
             success: (res) => {
                 if (Object.prototype.hasOwnProperty.call(res, '_embedded')) {
                     change_view(current_view_type, res._embedded.events);
@@ -351,6 +347,24 @@ function filter_action (e) {
                 }
             }
         });
+}
+
+
+function is_logged_in() { 
+    return (sessionStorage.getItem("login_status")=="logged_in"); 
+} 
+ 
+function logged_in_username() { 
+    return sessionStorage.getItem("user_name"); 
+}
+
+function auth_headers() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var authHeaders = {};
+    if (accessToken!='null') {
+        authHeaders.Authorization = "JWT "+accessToken;
+    }
+    return authHeaders;
 }
 
 function sign_up() {
@@ -385,14 +399,6 @@ function sign_up() {
         }
     });
 
-}
-
-function is_logged_in() {
-    return (sessionStorage.getItem("login_status")=="logged_in");
-}
-
-function logged_in_username() {
-    return sessionStorage.getItem("user_name");
 }
 
 function sign_in() {
@@ -435,7 +441,7 @@ function sign_out(){
         $("#top-login-button").removeClass("hidden");
         $("#top-logout-button").addClass("hidden");
         $("#admin_only").addClass("hidden");
-        home_page();
+        change_view("login_view");
 }
 
 function set_login_logout_button() {
@@ -454,22 +460,11 @@ function set_login_logout_button() {
 
 
 function fetch_admin_messages(){
-
-
-    var authHeaders = {};
-    var accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken!='null') {
-        authHeaders.Authorization = "JWT "+accessToken;
-    }
-    else{
-        return "Not authorized to get admin messages yet";
-    }
-
     console.log("Making ajax call to get admin messages");
     $.ajax({
         type: 'GET',
 
-        headers:authHeaders,
+        headers:auth_headers(),
         url: ADMIN_GET_URL,
 
         success: function(data){
@@ -524,16 +519,9 @@ function sign_out(){
 }
 
 function get_my_events(){
-    var accessToken = sessionStorage.getItem('accessToken');
-    console.log(accessToken);
-    var authHeaders = {};
-    if (accessToken!='null') {
-        authHeaders.Authorization = "JWT "+accessToken;
-    }
-
     $.ajax({
         type: 'get',
-        headers: authHeaders,
+        headers: auth_headers(),
         url: MY_EVENTS_URL,
         success: function(data){
             if(data=="Unauthorized"){
@@ -548,11 +536,6 @@ function get_my_events(){
 }
 
 function add_to_my_events(id){
-    var authHeaders = {};
-    var accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken!='null') {
-        authHeaders.Authorization = "JWT "+accessToken;
-    }
     $.ajax({
         type: 'POST',
 
@@ -561,7 +544,7 @@ function add_to_my_events(id){
             id:id,
             note:""
         },
-        headers:authHeaders,
+        headers: auth_headers(),
         url: MY_EVENT_URL,
         success: function(res){
             console.log(res);
@@ -572,15 +555,10 @@ function add_to_my_events(id){
 
 function edit_my_event(){
     var id="1234";
-    var authHeaders = {};
-    var accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken!='null') {
-        authHeaders.Authorization = "JWT "+accessToken;
-    }
     $.ajax({
         type: 'PUT',
         //contentType: "application/json",
-        headers:authHeaders,
+        headers:auth_headers(),
         data: {
             note:"abcdef"
         },
@@ -592,16 +570,10 @@ function edit_my_event(){
 }
 
 function delete_my_event(id){
-    var accessToken = sessionStorage.getItem('accessToken');
-    var authHeaders = {};
-    if (accessToken!='null') {
-        authHeaders.Authorization = "JWT "+accessToken;
-    }
-
     $.ajax({
         type: 'DELETE',
         //contentType: "application/json",
-        headers:authHeaders,
+        headers:auth_headers(),
         url: MY_EVENT_URL + id,
         success: function(res){
             console.log(res);
@@ -620,32 +592,12 @@ function home_page() {
     });
 }
 
-function hide_top_buttons(){
-    $("#top-login-button").addClass("hidden");
-    $("#top-logout-button").addClass("hidden");
-   // $("#top-event-list-button").addClass("hidden");
-   // $("#top-event-map-button").addClass("hidden");
-}
-
-function show_top_buttons(){
-    $("#top-login-button").addClass("hidden");
-    $("#top-logout-button").addClass("hidden");
-   // $("#top-event-list-button").addClass("hidden");
-    //$("#top-event-map-button").addClass("hidden");
-}
-
-
 function admin_post(){
     var msg = $("#admin_textbox").val(); //extract msg from box
     $("#admin_textbox").val(""); //clear the text box
 
     //alert("Message is "+msg);
 
-    var authHeaders = {};
-    var accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken!='null') {
-        authHeaders.Authorization = "JWT "+accessToken;
-    }
     $.ajax({
         type: 'POST',
 
@@ -654,7 +606,7 @@ function admin_post(){
             msg:msg
         },
 
-        headers:authHeaders,
+        headers:auth_headers(),
         url: ADMIN_POST_URL,
 
         success: function(res){
@@ -711,6 +663,7 @@ function register_all_callbacks(e) {
         $("#main").slideUp(function () {
             $("#buttonclick").removeClass("hidden"); 
             change_view("login_view");
+            set_login_logout_button();
         });
     });
 
