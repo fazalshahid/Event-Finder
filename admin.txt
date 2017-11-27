@@ -1,0 +1,5 @@
+Admin account details:
+
+email:admin@admin.com
+
+password: admin
