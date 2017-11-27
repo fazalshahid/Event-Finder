@@ -182,3 +182,11 @@ h3 {
 #register-form {
     padding-top: 80px;
 }
+
+.non-bold-label {
+    font-weight: normal;
+}
+
+#dont_have_account {
+    margin-left: 2.5em;
+}

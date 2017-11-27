@@ -376,15 +376,19 @@ function read_cookie(cname) {
 }
 
 function set_session(response) {
+    console.log(">>>>In set_session");
+    console.log(response);
     write_cookie('status', 'logged_in');
     write_cookie('accessToken', response.token);
-    write_cookie('username', response.user_name);
+    write_cookie('username', response.username);
+    write_cookie('email', response.email);
 }
 
 function clear_session(response) {
     write_cookie('status', "");
     write_cookie('accessToken', "");
     write_cookie('username', "");
+    write_cookie('email', "");
 }
 
 function is_logged_in() { 
@@ -410,6 +414,7 @@ function sign_up() {
         type: 'POST',
         //contentType: "application/json",
         data: {
+            username:$('#user_name_sign_in').val(),
             email:$('#email_sign_up').val(),
             password:$('#pwd_sign_up').val()
         },
@@ -417,20 +422,20 @@ function sign_up() {
         url: SIGNUP_URL,
         success: function(res){
             if(res=="error"){
-               console.log( "Username is already taken");
+               console.log( "Email belongs to an existing account");
             }
             else {
                 set_session(res);
+                fetch_admin_messages();
                 home_page();
             }
         },
         statusCode: {
             400: function (response) {
-                console.log("Username is already taken");
+                console.log("Email belongs to an existing account");
             }
         }
     });
-
 }
 
 function sign_in() {
@@ -675,8 +680,10 @@ function register_all_callbacks(e) {
         });
     });
 
-    $("#sign_up").click(sign_up);
     $("#sign_in").click(sign_in);
+    $("#go_to_signup").click(() => {change_view("register_view");})
+    $("#sign_up").click(sign_up);
+    
 
 
 

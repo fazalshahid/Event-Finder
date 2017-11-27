@@ -16,7 +16,6 @@ function authenticate(req,res,action){
             action(req, res, user);},
         function (err) {
             console.log("is_logged_in failed");
-            console.log(err);
             res.status(200).send("Unauthorized")
         });
 }
