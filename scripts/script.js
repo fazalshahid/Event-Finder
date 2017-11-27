@@ -3,7 +3,8 @@ TICKETMASTER_API_KEY = "27mLqO6JmMfWlES8MKnMVG1tkm75I9cE";
 TICKETMASTER_URL = TICKETMASTER_BASE_URL + TICKETMASTER_API_KEY;
 //https://app.ticketmaster.com/discovery/v2/events.json?apikey=27mLqO6JmMfWlES8MKnMVG1tkm75I9cE
 
-OUR_SERVER_BASE_URL = "http://localhost:3000";
+//OUR_SERVER_BASE_URL = "http://localhost:3000";
+OUR_SERVER_BASE_URL = "https://titaniumstrong.herokuapp.com"
 MY_EVENTS_URL = OUR_SERVER_BASE_URL + "/my_events";
 MY_EVENT_URL = OUR_SERVER_BASE_URL + "/my_event/";
 
