@@ -272,7 +272,21 @@ function clear_view () {
     $(".filter_input_fields").css("visibility", "hidden");     
     $("#admin_msg_box").removeClass("animated flipInX");       
     $(".filter_input_fields").removeClass("animated flipInX");
+
+    //Clear login and register views
+    $("#login-form").addClass("hidden");
+    $("#register-form").addClass("hidden");
 }
+
+function login_view() {
+    $("#login-form").removeClass("hidden");
+    //hide_top_buttons();
+}
+
+function register_view() {
+    $("#register-form").removeClass("hidden");
+}
+
 
 function change_view(view_type, data) {
     clear_view();
@@ -304,6 +318,14 @@ function change_view(view_type, data) {
         //$(".filter_input_fields").css("visibility", "visible");
         my_events_view(data);
     }
+    else if (view_type == "login_view") {
+        current_view_type = "login_view";
+        login_view();
+    }
+    else if (view_type == "register_view") {
+        current_view_type = "register_view";
+        register_view();
+    }
 }
 
 function filter_action (e) {
@@ -329,7 +351,7 @@ function filter_action (e) {
                 }
             }
         });
-    }
+}
 
 function sign_up() {
     console.log(" Sign up clicked");
@@ -363,6 +385,14 @@ function sign_up() {
         }
     });
 
+}
+
+function is_logged_in() {
+    return (sessionStorage.getItem("login_status")=="logged_in");
+}
+
+function logged_in_username() {
+    return sessionStorage.getItem("user_name");
 }
 
 function sign_in() {
@@ -400,48 +430,26 @@ function sign_in() {
 }
 
 function sign_out(){
-
         sessionStorage.setItem('accessToken', null);
         sessionStorage.setItem('login_status', 'logged_out');
         $("#top-login-button").removeClass("hidden");
         $("#top-logout-button").addClass("hidden");
         $("#admin_only").addClass("hidden");
         home_page();
-
 }
 
-function set_login_logout_button(){
-
-    if(sessionStorage.getItem("login_status")=="logged_in") {
+function set_login_logout_button() {
+    if(is_logged_in()) {
         $("#top-login-button").addClass("hidden");
         $("#top-logout-button").removeClass("hidden");
-        $("#user_name").append('<label>'+'Logged in as '+sessionStorage.getItem("user_name")+'</label>');
+        $("#user_name").empty();
+        $("#user_name").append('<label>'+'Logged in as ' + logged_in_username() + '</label>');
     }
     else{
         $("#top-login-button").removeClass("hidden");
         $("#top-logout-button").addClass("hidden");
         $("#user_name").empty();
     }
-
-}
-
-function show_login_button(){
-    $("#top-login-button").removeClass("hidden");
-    $("#top-logout-button").addClass("hidden");
-}
-
-function show_logout_button(){
-    $("#top-login-button").addClass("hidden");
-    $("#top-logout-button").removeClass("hidden");
-    $("#user_name").append('<label>'+'Logged in as '+sessionStorage.getItem("user_name")+'</label>');
-
-}
-
-function login_page(){
-    clear_view();
-    $("#register-login").removeClass("hidden");
-    hide_top_buttons();
-
 }
 
 
@@ -604,7 +612,6 @@ function delete_my_event(id){
 
 
 function home_page() {
-    $("#register-login").addClass("hidden");
     $(".filter_input_fields").removeClass("hidden");
     $("#main").slideUp(function () {
         $("#buttonclick").removeClass("hidden");
@@ -675,36 +682,35 @@ function register_all_callbacks(e) {
         () => {get_my_events()});
     $("#top-login-button").click(
         () => {
-        login_page();
+        change_view("login_view");
 
     });
     $("#top-logout-button").click(
-        () => {sign_out();});
+        () => { sign_out(); });
 
 
     $("#button2").click(function() {
-	$(".filter_input_fields").removeClass("hidden");
-
-    $(".filter_input_fields").addClass("animated flipInX");     
-            
+    	$(".filter_input_fields").removeClass("hidden");
+        $(".filter_input_fields").addClass("animated flipInX");     
         $("#admin_msg_box").removeClass("hidden");      
         $("#admin_msg_box").addClass("animated flipInX");
+
         $("#main").slideUp(function () {
             $("#buttonclick").removeClass("hidden");
             change_view("listing_view", current_events);
-            show_login_button();
-
-            
+            set_login_logout_button();
         });
     });
 
      $("#button3").click(function() {
-    $("#register-login").removeClass("hidden");
-        $("#main").slideUp(function () {
-            $("#buttonclick").addClass("hidden");
+        $(".filter_input_fields").removeClass("hidden");
+        $(".filter_input_fields").addClass("animated flipInX");     
+        $("#admin_msg_box").removeClass("hidden");      
+        $("#admin_msg_box").addClass("animated flipInX");
 
-            
-            
+        $("#main").slideUp(function () {
+            $("#buttonclick").removeClass("hidden"); 
+            change_view("login_view");
         });
     });
 

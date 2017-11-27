@@ -38,7 +38,9 @@
 </div>
 
 <div id="register-login" class="div well hidden">
+</div> <!--To be removed-->
 
+<div id="login-form" class="div well hidden">
     <div class="container forms">
         <h2>Login if you already have an account</h2>
         <div class="form-group">
@@ -51,10 +53,10 @@
         </div>
 
         <button type="submit" id="sign_in" class="btn btn-warning">Login</button>
-
-
-
     </div>
+</div>
+
+<div id="register-form" class="hidden">
     <div class="container forms">
         <h2>Signup for a new Account if you dont have one yet!</h2>
 
@@ -70,8 +72,8 @@
         <button type="submit" id="sign_up" class="btn btn-warning">Signup</button>
 
     </div>
-
 </div>
+
 
 <div id="buttonclick" class="hidden">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -189,40 +191,36 @@
 
         </div>
 
-        <div class="col-md-12 col-sm-4 col-lg-10">
+    <div class="col-md-12 col-sm-4 col-lg-10">
         <div class="filter_input_fields hidden">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <input id="classification_filter" type="text" class="form-control" placeholder="Enter event category...">
-                        </div>
-                        <div class="col-sm-4">
-                            <input id="city_filter" type="text" class="form-control" placeholder="Enter city...">
-                        </div>
-                        <div class="col-sm-4">
-                            <input id="country_filter" type="text" class="form-control" placeholder="Enter country code...">
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input id="classification_filter" type="text" class="form-control" placeholder="Enter event category...">
                     </div>
-                    <span class="input-group-btn">
-
-                            <button id="filter_button" type="button" class="btn btn-info button-padding animated flipInX">
-      <span class="graphic"></span> Filter
-    </button>
-                    </span>
-
+                    <div class="col-sm-4">
+                        <input id="city_filter" type="text" class="form-control" placeholder="Enter city...">
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="country_filter" type="text" class="form-control" placeholder="Enter country code...">
+                    </div>
                 </div>
+                <span class="input-group-btn">
+                    <button id="filter_button" type="button" class="btn btn-info button-padding animated flipInX">
+                        <span class="graphic"></span> Filter
+                    </button>
+                </span>
+
+            </div>
         </div>
       
-             <!-- List of events -->
+        <!-- List of events -->
         <div class="container">
-        <div id="events_list" class="list-group col-lg-12 col-sm-12"></div>
-        <div id="map_view" class="col-lg-12 col-sm-12">
-            <div id="map"></div>
+            <div id="events_list" class="list-group col-lg-12 col-sm-12"></div>
+            <div id="map_view" class="col-lg-12 col-sm-12">
+                <div id="map"></div>
+            </div>
         </div>
-      </div>
-
-
-       
     </div>
 </div>
 

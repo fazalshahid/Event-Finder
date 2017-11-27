@@ -174,3 +174,11 @@ h3 {
 .filter_input_fields {
     visibility: hidden
 }
+
+#login-form {
+    padding-top: 80px;
+}
+
+#register-form {
+    padding-top: 80px;
+}
