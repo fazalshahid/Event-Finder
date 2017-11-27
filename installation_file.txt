@@ -4,4 +4,14 @@ npm install bcrypt --save
 npm install jwt-simple --save
 npm install moment --save
 npm install nodemailer --save
+npm install express --save
+npm install cors --save
+npm install ejs --save
+
+// MongDB server for your platform of choice
+//Windows
 cd ../..\Program Files\MongoDB\Server\3.4/bin
+
+//Linux
+sudo apt install mongodb mongodb-server
+sudo service mongodb start
