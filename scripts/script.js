@@ -550,12 +550,16 @@ function appendAdminMessages(data){
 
     for(var i=data.length-1; i>=0; i--) {
         $("#admin_messages").append(`
-            <li class="msg_text">${data[i].text}</li>`);
+            <div data="${data[i]._id}">
+            <li class="msg_text">${data[i].text}</li>  </div>`);
                 if(admin == "true"){
                     $("#admin_messages").append(
-                        `   <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding">
+
+                        `<div data="${data[i]._id}">   
+                            <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding">
                                 <span class="graphic"></span>Delete
-                            </button> `);
+                            </button> 
+                            </div>`);
                 }
     } //end of for loop
 }
@@ -658,6 +662,36 @@ function admin_post(){
     });
 }
 
+function delete_admin_post(){
+
+                var postID = $(this).attr('data');   //get the post ID first.
+               
+                //$('ul[data="${postID}"]').remove(); 
+                
+               
+               
+
+
+                console.log("postID captured is: " +postID);
+                    //text= {'text': text};
+                     $.ajax({
+                          type:"DELETE",
+                         // data: {'postID':postID},  //We send the server the postID and the comment itself
+                          url:"/api/messages/" + postID ,
+                          headers:auth_headers(),
+                          async:true,
+                          //dataType: "json",
+
+                         success: function(res) {
+                                 console.log(res);
+                                 $('div[data='+postID+']').remove();
+
+
+                             },
+});
+
+}
+
 function register_all_callbacks(e) {
 
     $("#back-button").click(function() {
@@ -717,6 +751,9 @@ function register_all_callbacks(e) {
 
 
      $("#post_button").click(admin_post);
+
+      $(document.body).on('click', '.delete_button', delete_admin_post); //need to handle these dynamically. Normal jquery click wont work
+   
 
      setInterval(fetch_admin_messages, 5000);
 }

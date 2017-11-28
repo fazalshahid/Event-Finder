@@ -55,21 +55,24 @@ function postMessage(req,res,user){
 }
 
 function deleteMessage(req,res,user){
-    Event.find({event_id:req.params.id},function(err,event){
+
+    console.log("IN deleteMessage");
+    Admin.remove({"_id": req.params.id },function(err,messages){
+
         if(err){
-            return res.status(200).send(err);
-        }else{
-            event.note = req.body.note;
-            event.save(function(err,saved){
-                if(err){
-                    return res.status(200).send(err);
-                }
-                else{
-                    return res.status(200).send("success");
-                }
-            });
+            return res.status(404).send(err);
+        }
+
+        else {
+            console.log("found and deleted the message from admins database");
+
+            return res.status(200).send("deleted msg " + req.params.id);
+            //res.status(200).json(_events);
+            //next();
+
         }
     });
+    
 }
 
 
@@ -120,6 +123,7 @@ exports.deleteMessage = function(req,res){
     var email = payload.sub;
     
     if(email == "admin@admin.com"){
+            console.log("request came from admin's email. Now trying to check if password is correct")
             session.authenticate(req,res,deleteMessage);
         
         }
