@@ -51,10 +51,13 @@
             <label for="pwd_sign_in">Password:</label>
             <input type="password" class="form-control" id="pwd_sign_in" placeholder="Enter password" name="pwd">
         </div>
+
         <button type="submit" id="sign_in" class="btn btn-warning">Login</button>
+
 
         <label id="dont_have_account" class="non-bold-label">Don't have an account?</label>
         <button type="button" id="go_to_signup" class="btn">Sign Up</button>
+        <div id="login_error"class="error-messages hidden">Username and password didn't match</div>
     </div>
 </div>
 
@@ -76,6 +79,7 @@
         </div>
 
         <button type="submit" id="sign_up" class="btn btn-warning">Signup</button>
+        <div id="register_error"class="error-messages hidden">Username is already taken</div>
 
     </div>
 </div>
@@ -125,12 +129,12 @@
                         </button>
                     </li>
                     <li id="top-login-button"> <button type="button" class="btn btn-info button-padding">
-                            <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
+                            <span class="graphic navbar-brand glyphicon glyphicon-log-in"></span>
                             Login
                         </button>
                     </li>
                     <li id="top-logout-button"> <button type="button" class="btn btn-info button-padding">
-                            <span class="graphic navbar-brand glyphicon glyphicon-map-marker"></span>
+                            <span class="graphic navbar-brand glyphicon glyphicon-log-out"></span>
                             Logout
                         </button>
                     </li>

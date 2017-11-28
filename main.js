@@ -1,5 +1,6 @@
 var MONGO_URL = "mongodb://tit_309:tit309@ds121686.mlab.com:21686/tit309";
 var LOCAL_MONGO_URL = "mongodb://localhost:27017/test";
+var CSC_URL = "mongodb://csc309f:csc309fall@ds117316.mlab.com:17316/csc309db"
 var express = require('express');
 var path = require('path');
 
@@ -8,14 +9,6 @@ var bodyParser = require('body-parser');
 var jwt = require("jwt-simple");
 var moment = require("moment");
 var cors = require('cors')
-/*
-var cors = function(req,res,next){
-    res.header("Access-Control-Allow-Origin","*");
-    res.header("Access-Control-Allow-Headers","Content-Type,Authorization");
-    next();
-
-};
-*/
 
 var User = require('./models/UserModel').model;
 var Event = require('./models/EventModel').model;
@@ -33,38 +26,6 @@ app.use(bodyParser.json());
 app.use(express.static('scripts'));
 app.use(express.static('stylesheets'));
 app.use(express.static('images'));
-/*
-app.use(function(req,res,next){
-
-    if(req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0]==="JWT"){
-        var payload = jwt.decode(req.header('Authorization').split(" ")[1],'secret');
-        if(payload.exp<=moment().unix){
-            res.send({stat:"expired"});
-            return;
-        }
-        User.find({_id:payload.sub},function(err,user){
-
-            if(user){
-                req.user=user;
-                //console.log(req.user);
-                next();
-            }
-            else
-                req.user = undefined
-            next();
-        });
-
-    }
-    else{
-        req.user = undefined;
-        next();
-
-    }
-
-});
-
-
-*/
 var test_login = function(req){
     console.log("logged in");
     console.log(req.user);
@@ -108,7 +69,7 @@ app.get('/events', eventsHandler.get_events_list);
 
 
 var mongoose = require('mongoose');
-var urlt = "mongodb://csc309f:csc309fall@ds117316.mlab.com:17316/csc309db"
+
 mongoose.connect(MONGO_URL, {
   useMongoClient: true,
   /* other options */

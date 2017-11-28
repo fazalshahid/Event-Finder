@@ -14,11 +14,9 @@ exports.sign_up = function(req,res){
     newUser.hash_password = bcrypt.hashSync(req.body.password, 10);
     newUser.save(function(err, user) {
         if (err) {
-            console.log("error happened");
-            return res.status(200).send("error");
+            res.status(401).json({ message: 'Username is already taken' });
 
         } else {
-            console.log(" user saved");
             return res.json({token: createToken(user), username:user.username, email:user.email});
         }
     });

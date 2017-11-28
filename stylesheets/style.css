@@ -190,3 +190,6 @@ h3 {
 #dont_have_account {
     margin-left: 2.5em;
 }
+.error-messages {
+    color: red;
+    font-size: 12px; }

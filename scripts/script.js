@@ -3,8 +3,8 @@ TICKETMASTER_API_KEY = "27mLqO6JmMfWlES8MKnMVG1tkm75I9cE";
 TICKETMASTER_URL = TICKETMASTER_BASE_URL + TICKETMASTER_API_KEY;
 //https://app.ticketmaster.com/discovery/v2/events.json?apikey=27mLqO6JmMfWlES8MKnMVG1tkm75I9cE
 
-//OUR_SERVER_BASE_URL = "http://localhost:3000";
-OUR_SERVER_BASE_URL = "https://titaniumstrong.herokuapp.com"
+OUR_SERVER_BASE_URL = "http://localhost:3000";
+//OUR_SERVER_BASE_URL = "https://titaniumstrong.herokuapp.com"
 MY_EVENTS_URL = OUR_SERVER_BASE_URL + "/my_events";
 MY_EVENT_URL = OUR_SERVER_BASE_URL + "/my_event/";
 
@@ -297,6 +297,7 @@ function change_view(view_type, data) {
     if (view_type == "detailed_view") {
         current_view_type = "detailed_view";
         detailed_view(data);
+        set_login_logout_button();
     }
     else if (view_type == "listing_view") {
         current_view_type = "listing_view";
@@ -306,6 +307,7 @@ function change_view(view_type, data) {
              $("#admin_msg_box").addClass("animated flipInX");      
              $(".filter_input_fields").addClass("animated flipInX");    
         listing_view(data);
+        set_login_logout_button();
     }
     else if (view_type == "map_view") {
         current_view_type = "map_view";
@@ -315,20 +317,25 @@ function change_view(view_type, data) {
         $("#admin_msg_box").addClass("animated flipInX");      
         $(".filter_input_fields").addClass("animated flipInX");
         map_view(data);
+        set_login_logout_button();
     }
     else if (view_type == "my_events_view") {
         current_view_type = "my_events_view";
         //$(".filter_input_fields").css("visibility", "visible");
         my_events_view(data);
+        set_login_logout_button();
     }
     else if (view_type == "login_view") {
         current_view_type = "login_view";
         login_view();
+        hide_both_login_logout_button();
     }
     else if (view_type == "register_view") {
         current_view_type = "register_view";
         register_view();
+        hide_both_login_logout_button();
     }
+
 }
 
 function filter_action (e) {
@@ -409,42 +416,36 @@ function logged_in_username() {
 
 
 function sign_up() {
-    console.log(" Sign up clicked");
 
     $.ajax({
         type: 'POST',
-        //contentType: "application/json",
         data: {
             username:$('#user_name_sign_in').val(),
             email:$('#email_sign_up').val(),
             password:$('#pwd_sign_up').val()
         },
-        //url: 'https://boiling-beach-43004.herokuapp.com/sign_up',
         url: SIGNUP_URL,
         success: function(res){
-            if(res=="error"){
-               console.log( "Email belongs to an existing account");
-            }
-            else {
+
                 set_session(res);
                 fetch_admin_messages();
                 home_page();
-            }
+                $("#register_error").addClass("hidden");
+            
         },
         statusCode: {
-            400: function (response) {
-                console.log("Email belongs to an existing account");
+            401: function (response) {
+                $("#register_error").removeClass("hidden");
             }
         }
     });
 }
 
 function sign_in() {
-    console.log(" Sign in clicked");
     var email = $('#email_sign_in').val();
     $.ajax({
         type: 'POST',
-        //contentType: "application/json",
+
         data: {
             email:$('#email_sign_in').val(),
             password:$('#pwd_sign_in').val()
@@ -465,6 +466,12 @@ function sign_in() {
             set_session(res);
             fetch_admin_messages();
             home_page();
+            $("#login_error").addClass("hidden");
+        },
+        statusCode: {
+            401: function (response) {
+                $("#login_error").removeClass("hidden");
+            }
         }
     });
 }
@@ -474,7 +481,7 @@ function sign_out(){
         $("#top-login-button").removeClass("hidden");
         $("#top-logout-button").addClass("hidden");
         $("#admin_only").addClass("hidden");
-        change_view("login_view");
+       // change_view("login_view");
         set_login_logout_button();
 }
 
@@ -490,6 +497,12 @@ function set_login_logout_button() {
         $("#top-logout-button").addClass("hidden");
         $("#user_name").empty();
     }
+}
+
+function hide_both_login_logout_button(){
+    $("#top-login-button").addClass("hidden");
+    $("#top-logout-button").addClass("hidden");
+    $("#user_name").empty();
 }
 
 
@@ -569,6 +582,8 @@ function add_to_my_events(id){
     });
 }
 
+
+//To do
 function edit_my_event(){
     var id="1234";
     $.ajax({
@@ -588,7 +603,6 @@ function edit_my_event(){
 function delete_my_event(id){
     $.ajax({
         type: 'DELETE',
-        //contentType: "application/json",
         headers:auth_headers(),
         url: MY_EVENT_URL + id,
         success: function(res){
@@ -612,7 +626,6 @@ function admin_post(){
     var msg = $("#admin_textbox").val(); //extract msg from box
     $("#admin_textbox").val(""); //clear the text box
 
-    //alert("Message is "+msg);
 
     $.ajax({
         type: 'POST',
@@ -679,7 +692,7 @@ function register_all_callbacks(e) {
         $("#main").slideUp(function () {
             $("#buttonclick").removeClass("hidden"); 
             change_view("login_view");
-            set_login_logout_button();
+            hide_both_login_logout_button();
         });
     });
 
