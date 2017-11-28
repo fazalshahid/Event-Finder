@@ -187,6 +187,7 @@ function listing_view(events) {
 
 function my_events_view(events) {
     //current_events = events;
+
     for(let i=0; i<events.length; i++) {
         $("#events_list").append(
             `<a  class="list-group-item animated flipInX" id="${events[i].event_id}">
@@ -413,6 +414,9 @@ function logged_in_username() {
     return read_cookie('username');
 }
 
+function logged_in_email() { 
+    return read_cookie('email');
+}
 
 
 function sign_up() {
@@ -534,6 +538,15 @@ function fetch_admin_messages(){
 
 function appendAdminMessages(data){
     $("#admin_messages").empty();
+
+    var email= logged_in_email();
+    console.log("returned email is "+ email);
+    if(email == "admin@admin.com"){
+        admin= "true";
+        $("#admin_only").removeClass("hidden");
+        console.log("admin is logged in");
+    }
+
 
     for(var i=data.length-1; i>=0; i--) {
         $("#admin_messages").append(`
