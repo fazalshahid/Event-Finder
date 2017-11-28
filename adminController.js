@@ -9,7 +9,7 @@ var session = require('./sessionController.js');
 
 
 function getMessages(req,res,user){
-    console.log("In get messages and getting all admin messages");
+
     Admin.find({},function(err,messages){
 
         if(err){
@@ -17,9 +17,8 @@ function getMessages(req,res,user){
         }
 
         else {
-            console.log("found events");
 
-            console.log(messages);
+
             return res.status(200).json(messages);
             //res.status(200).json(_events);
             //next();

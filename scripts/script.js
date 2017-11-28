@@ -347,6 +347,7 @@ function filter_action (e) {
             url: `${EVENTS_URL}?classificationName=${classification}&city=${city}&countryCode=${country}`,
             headers: auth_headers(),
             success: (res) => {
+            console.log(res);
                 if (Object.prototype.hasOwnProperty.call(res, '_embedded')) {
                     change_view(current_view_type, res._embedded.events);
                 }
@@ -431,7 +432,7 @@ function sign_up() {
                 fetch_admin_messages();
                 home_page();
                 $("#register_error").addClass("hidden");
-            
+
         },
         statusCode: {
             401: function (response) {
