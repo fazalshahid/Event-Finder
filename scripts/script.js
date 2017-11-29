@@ -28,7 +28,8 @@ let scroll=0;
 let admin = "false";
 let default_cookie_expiration = 500000000000000000000000000000000 //2 days
 
-
+let old_size=0;
+let new_size=0;
 
 
 function initMap() {
@@ -592,7 +593,11 @@ function fetch_admin_messages(){
                 }
                 else {
                    // console.log("admin msgs received : " + data);
+                    new_size = data.length;
+                     console.log("new size is " + new_size);
                     appendAdminMessages(data);
+
+                    //old_size = data.length;
                     //console.log("admin msgs received : " + data[0].text);
                     //change_view("my_events_view", data);
                 }
@@ -602,6 +607,9 @@ function fetch_admin_messages(){
 }
 
 function appendAdminMessages(data){
+    var add_animation = 0;
+    
+
     $("#admin_messages").empty();
 
     var email= logged_in_email();
@@ -612,7 +620,13 @@ function appendAdminMessages(data){
         //onsole.log("admin is logged in");
     }
 
+    if(new_size > old_size){
+        console.log("new size is greater than old size. New msg arrived");
+        add_animation = 1;
+    
+    }
 
+    old_size = data.length;
     for(var i=data.length-1; i>=0; i--) {
         $("#admin_messages").append(`
 
@@ -632,6 +646,11 @@ function appendAdminMessages(data){
 
                  $("#admin_messages").append(`
              `);
+
+                 if(add_animation==1){
+                  $('div[data='+data[i]._id+']').addClass("animated slideInLeft");
+                    add_animation=0;
+                 }
     } //end of for loop
 }
 
