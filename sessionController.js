@@ -24,7 +24,7 @@ function is_logged_in(req, res) {
         if(req.headers && req.headers.authorization && (req.headers.authorization).split(' ')[0]=="JWT") {
             var payload = jwt.decode((req.headers.authorization).split(" ")[1], 'secret');
             
-            console.log(("first one ") + payload.sub);
+            
             
             if (payload.exp <= moment().unix) {
                 reject(Error("No user is logged in (1)"));
@@ -34,8 +34,7 @@ function is_logged_in(req, res) {
                     reject(Error("No user is logged in (2)"));
                 }
                 else {
-                    console.log(user.email);
-                    console.log(user);
+                    
                     resolve(user);
                 }
             });

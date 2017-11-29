@@ -26,7 +26,7 @@ let current_view_type = "listing_view";
 let current_events = [];
 let scroll=0;
 let admin = "false";
-let default_cookie_expiration = 2*24*60*60 //2 days
+let default_cookie_expiration = 500000000000000000000000000000000 //2 days
 
 
 
@@ -151,7 +151,7 @@ function listing_view(events) {
 <div class = "container">
     <div class = "row">
     <div class="col-md-4 col-sm-2">
-                    <p>${events[i].name}
+                    <p>${events[i].name}</p>
           </div>
     
         <div id="my-event-div${events[i].id}" class="col-md-7 col-sm-3">
@@ -170,7 +170,7 @@ function listing_view(events) {
     </div>
 </div>
 
-                       ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
+                    <p>   ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
                  </a>`);
 
 	        $("#"+events[i].id).click(() => {
@@ -287,8 +287,33 @@ function my_events_view(events) {
     for(let i=0; i<events.length; i++) {
         $("#events_list").append(
             `<a  class="list-group-item animated flipInX" id="${events[i].event_id}">
-                    <p>${events[i].name}              Note: "${events[i].note}" <Button id="rm${events[i].event_id}"> Remove from My Events</Button><br>
-                       ${events[i].date} @${events[i].time}<p/>
+
+<div class = "container">
+    <div class = "row">
+    <div class="col-md-4 col-sm-2">
+                    <p>${events[i].name}</p>
+          </div>
+    
+        <div id="my-event-div${events[i].event_id}" class="col-md-7 col-sm-3">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Note</span>
+                    <input id="mynote${events[i].event_id}" type="text" class="form-control" value="${events[i].note}" readonly>
+                    <div class="input-group-btn">
+                        <button id = "ed${events[i].event_id}" type="button" class="btn btn-warning" data-toggle="tooltip">
+                            Edit Note
+                        </button>
+                        <button id = "rm${events[i].event_id}" type="button" class="btn btn-danger" data-toggle="tooltip" title= "Remove From my Events">
+                            X
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    <p>${events[i].date} @${events[i].time}</p>
                  </a>`);
 
         $("#"+events[i].event_id).click(() => {
@@ -304,11 +329,26 @@ function my_events_view(events) {
         delete_my_event(events[i].event_id);
 
     });
-        $("#rm"+events[i].event_id).mouseenter(() => {
+
+        $("#ed"+events[i].event_id).click(() => {
+            //console.log($(this).attr("value"));
+            //console.log($("#ed"+events[i].event_id).text());
+            if (($("#ed"+events[i].event_id).text()) != "Submit"){
+                $("#ed"+events[i].event_id).text("Submit");
+                $("#mynote"+events[i].event_id).removeAttr("readonly");
+            }
+            else{
+                console.log("I'm here");
+                edit_my_event(events[i].event_id, events[i].note);
+            }
+            
+
+    });
+        $("#my-event-div"+events[i].event_id).mouseenter(() => {
             $("#"+events[i].event_id).unbind("click");
 
     });
-        $("#rm"+events[i].event_id).mouseleave(() => {
+        $("#my-event-div"+events[i].event_id).mouseleave(() => {
             $("#"+events[i].event_id).bind("click",() => {
             scroll = $(window).scrollTop();
         clear_view();
@@ -316,6 +356,7 @@ function my_events_view(events) {
 
         current_row = events[i].event_id;
     });
+
 
     });
     }
@@ -609,7 +650,7 @@ function hide_both_login_logout_button(){
 
 function fetch_admin_messages(){
     if (is_logged_in()) {
-        console.log("Making ajax call to get admin messages");
+        //console.log("Making ajax call to get admin messages");
         $.ajax({
             type: 'GET',
 
@@ -623,7 +664,7 @@ function fetch_admin_messages(){
                     console.log("Login required")
                 }
                 else {
-                    console.log("admin msgs received : " + data);
+                   // console.log("admin msgs received : " + data);
                     appendAdminMessages(data);
                     //console.log("admin msgs received : " + data[0].text);
                     //change_view("my_events_view", data);
@@ -641,7 +682,7 @@ function appendAdminMessages(data){
     if(email == "admin@admin.com"){
         admin= "true";
         $("#admin_only").removeClass("hidden");
-        console.log("admin is logged in");
+        //onsole.log("admin is logged in");
     }
 
 
@@ -691,25 +732,30 @@ function add_to_my_events(id,note){
         url: MY_EVENT_URL,
         success: function(res){
             console.log(res);
-            //get_my_events();
+                
+            
         }
     });
 }
 
 
 //To do
-function edit_my_event(){
-    var id="1234";
+function edit_my_event(id, note){
+    //var id="1234";
     $.ajax({
         type: 'PUT',
         //contentType: "application/json",
         headers:auth_headers(),
         data: {
-            note:"abcdef"
+            note: note
         },
         url: MY_EVENT_URL+id,
         success: function(res){
             console.log(res);
+            $("#ed"+id).text("Edit Note");
+            $("#mynote"+id).attr("readonly");
+            get_my_events();
+            
         }
     });
 }
@@ -852,7 +898,7 @@ function register_all_callbacks(e) {
       $(document.body).on('click', '.delete_button', delete_admin_post); //need to handle these dynamically. Normal jquery click wont work
    
 
-     setInterval(fetch_admin_messages, 5000);
+     //setInterval(fetch_admin_messages, 5000);
 }
 
 $(document).ready(register_all_callbacks);

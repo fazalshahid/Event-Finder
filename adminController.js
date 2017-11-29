@@ -30,12 +30,12 @@ function getMessages(req,res,user){
 function postMessage(req,res,user){
     var id = req.body.id;
     
-    console.log("In postMessage function after succeeding authentication");
+    
 
             admin = new Admin();
             data = req.body.msg;
 
-            console.log("Msg received is :" + data);
+         
 
             //console.log("after");
 
@@ -55,7 +55,7 @@ function postMessage(req,res,user){
 
 function deleteMessage(req,res,user){
 
-    console.log("IN deleteMessage");
+    
     Admin.remove({"_id": req.params.id },function(err,messages){
 
         if(err){
@@ -63,7 +63,7 @@ function deleteMessage(req,res,user){
         }
 
         else {
-            console.log("found and deleted the message from admins database");
+           
 
             return res.status(200).send("deleted msg " + req.params.id);
             //res.status(200).json(_events);
@@ -85,11 +85,11 @@ exports.getMessages = function(req,res){
 exports.postMessage = function(req,res){
 
     //only admin can post a msg
-    console.log("REceived POST request for admin msg");
+   
 
     var payload = jwt.decode((req.headers.authorization).split(" ")[1], 'secret');
             
-    console.log(("In postMessage adminController and checking email first ") + payload.sub);
+    
 
     var email = payload.sub;
     
@@ -113,11 +113,10 @@ exports.deleteMessage = function(req,res){
     //only admin can delete a msg
 
 
-    console.log("REceived Delete request for admin msg");
+    
 
     var payload = jwt.decode((req.headers.authorization).split(" ")[1], 'secret');
-            
-    console.log(("In postMessage adminController and checking email first ") + payload.sub);
+    
 
     var email = payload.sub;
     

@@ -18,9 +18,7 @@ function send_events(req,res,user){
         }
 
         else {
-            console.log("got here");
-
-            console.log(events);
+           
             return res.status(200).json(events);
             //res.status(200).json(_events);
             //next();
@@ -62,16 +60,23 @@ function add_event(req,res,user){
 }
 
 function edit_event(req,res,user){
-    Event.find({event_id:req.params.id},function(err,event){
+    Event.findOne({event_id:req.params.id},function(err,event){
         if(err){
+            console.log("error");
             return res.status(200).send(err);
         }else{
+
+            //console.log(event[0]);
             event.note = req.body.note;
+            //event.save();
             event.save(function(err,saved){
+                console.log(saved);
+                console.log("Im here");
                 if(err){
                     return res.status(200).send(err);
                 }
                 else{
+                    
                     return res.status(200).send("success");
                 }
             });
