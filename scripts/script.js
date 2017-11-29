@@ -145,7 +145,28 @@ function listing_view(events) {
         for(let i=0; i<events.length; i++) {
             $("#events_list").append(
                 `<a  class="list-group-item animated flipInX" id="${events[i].id}">
-                    <p>${events[i].name}        <Button id="my${events[i].id}"> Add to My Events</Button><br>
+<div class = "container">
+    <div class = "row">
+    <div class="col-md-4 col-sm-2">
+                    <p>${events[i].name}
+          </div>
+    
+        <div id="my-event-div${events[i].id}" class="col-md-7 col-sm-3">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Note</span>
+                    <input  type="text" class="form-control">
+                    <div class="input-group-btn">
+                        <button id = "my${events[i].id}" type="button" class="btn btn-warning">
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                        ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
                  </a>`);
 
@@ -162,11 +183,11 @@ function listing_view(events) {
             add_to_my_events(events[i].id);
 
         });
-            $("#my"+events[i].id).mouseenter(() => {
+            $("#my-event-div"+events[i].id).mouseenter(() => {
                 $("#"+events[i].id).unbind("click");
-                console.log("mouse enter")
+                console.log("mouse enter");
         });
-            $("#my"+events[i].id).mouseleave(() => {
+            $("#my-event-div"+events[i].id).mouseleave(() => {
                 $("#"+events[i].id).bind("click",() => {
                 scroll = $(window).scrollTop();
             clear_view();

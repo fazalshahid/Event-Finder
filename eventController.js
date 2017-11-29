@@ -1,4 +1,4 @@
-TICKETMASTER_BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json?size=199&apikey=";
+TICKETMASTER_BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json?size=5&apikey=";
 TICKETMASTER_API_KEY = "27mLqO6JmMfWlES8MKnMVG1tkm75I9cE";
 TICKETMASTER_URL = TICKETMASTER_BASE_URL + TICKETMASTER_API_KEY;
 
