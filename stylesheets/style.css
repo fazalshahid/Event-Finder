@@ -1,4 +1,4 @@
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 480px) and (max-width: 991px) {
     .navbar-collapse.collapse {
         display: none !important;
     }
@@ -11,8 +11,107 @@
     .navbar-header {
         float:none;
     }
-}
+
     
+}
+
+/* Extra Small Devices, Phones */ 
+    @media only screen and (min-width : 280px) {
+            .panel-body{
+                height: 200px;
+                overflow: scroll;
+                }
+
+     .filter_input_fields{
+                    padding-top: 20px;
+                }
+    }
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+            .panel-body{
+    height: 200px;
+    overflow: scroll;
+    }
+
+     .filter_input_fields{
+                    padding-top: 20px;
+                }
+    }
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) {
+                  .panel-body{
+                    height: 300px;
+                    overflow: scroll;
+                    }
+    .filter_input_fields{
+                    padding-top: 20px;
+                }
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+              .panel-body{
+                height: 400px;
+                overflow: scroll;
+                }
+
+                .filter_input_fields{
+                    padding-top: 80px;
+                }
+    }
+
+/*
+.panel-body{
+    height: 440px;
+    overflow: scroll;
+}*/
+
+#post_button{
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.delete_button{
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.msg_text{
+    margin-bottom: 0px;
+}
+
+#admin_textbox{
+   
+    color: #337ab7;
+    border-style: solid;
+    border-width: 5px; 
+    width: 90%;
+    height: 30%; 
+    font-weight: bold;
+
+  
+}
+
+#admin_msg_box{
+    margin-top: 55px; 
+    padding-top: 20px;
+    color: #337ab7;
+    font-size: 15px;
+    font-weight: bold;
+    /*border-style: solid;
+    border-width: 5px;
+    height: 300px;
+    overflow: scroll;*/
+  
+}
+
+
+
+/*    
 #admin_textbox{
    
     color: black;
@@ -33,6 +132,7 @@
     overflow: scroll;
   
 }
+*/
 
 .forms{
 
@@ -81,9 +181,7 @@ background-color: white;
     margin-left: 0px;
 }
 
-.filter_input_fields{
-    padding-top: 80px;
-}
+
 
 .button-size{
   

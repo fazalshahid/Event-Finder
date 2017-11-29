@@ -28,7 +28,8 @@ let scroll=0;
 let admin = "false";
 let default_cookie_expiration = 500000000000000000000000000000000 //2 days
 
-
+let old_size=0;
+let new_size=0;
 
 
 function initMap() {
@@ -422,6 +423,7 @@ function clear_view () {
 
 function login_view() {
     $("#login-form").removeClass("hidden");
+     $('#login-form').removeClass("animated flipInX").addClass("animated flipInX");
 }
 
 function register_view() {
@@ -625,6 +627,7 @@ function sign_out(){
         $("#admin_only").addClass("hidden");
        // change_view("login_view");
         set_login_logout_button();
+        location.reload();
 }
 
 function set_login_logout_button() {
@@ -665,7 +668,11 @@ function fetch_admin_messages(){
                 }
                 else {
                    // console.log("admin msgs received : " + data);
+                    new_size = data.length;
+                     console.log("new size is " + new_size);
                     appendAdminMessages(data);
+
+                    //old_size = data.length;
                     //console.log("admin msgs received : " + data[0].text);
                     //change_view("my_events_view", data);
                 }
@@ -675,6 +682,9 @@ function fetch_admin_messages(){
 }
 
 function appendAdminMessages(data){
+    var add_animation = 0;
+    
+
     $("#admin_messages").empty();
 
     var email= logged_in_email();
@@ -685,20 +695,37 @@ function appendAdminMessages(data){
         //onsole.log("admin is logged in");
     }
 
+    if(new_size > old_size){
+        console.log("new size is greater than old size. New msg arrived");
+        add_animation = 1;
+    
+    }
 
+    old_size = data.length;
     for(var i=data.length-1; i>=0; i--) {
         $("#admin_messages").append(`
+
             <div data="${data[i]._id}">
-            <li class="msg_text">${data[i].text}</li>  </div>`);
+            <li class="msg_text list-group-item">> ${data[i].text} </li>`);
                 if(admin == "true"){
                     $("#admin_messages").append(
 
-                        `<div data="${data[i]._id}">   
-                            <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding">
+                        `   <div data="${data[i]._id}">
+                            <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding" style= "margin-top: 0px;"
+>
                                 <span class="graphic"></span>Delete
                             </button> 
-                            </div>`);
+                            </div>
+                           `);
                 }
+
+                 $("#admin_messages").append(`
+             `);
+
+                 if(add_animation==1){
+                  $('div[data='+data[i]._id+']').addClass("animated slideInLeft");
+                    add_animation=0;
+                 }
     } //end of for loop
 }
 
@@ -900,7 +927,7 @@ function register_all_callbacks(e) {
       $(document.body).on('click', '.delete_button', delete_admin_post); //need to handle these dynamically. Normal jquery click wont work
    
 
-     //setInterval(fetch_admin_messages, 5000);
+     setInterval(fetch_admin_messages, 5000);
 }
 
 $(document).ready(register_all_callbacks);
