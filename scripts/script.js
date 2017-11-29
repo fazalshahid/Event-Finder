@@ -613,17 +613,23 @@ function appendAdminMessages(data){
 
     for(var i=data.length-1; i>=0; i--) {
         $("#admin_messages").append(`
+
             <div data="${data[i]._id}">
-            <li class="msg_text">${data[i].text}</li>  </div>`);
+            <li class="msg_text list-group-item">> ${data[i].text} </li>`);
                 if(admin == "true"){
                     $("#admin_messages").append(
 
-                        `<div data="${data[i]._id}">   
-                            <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding">
+                        `   <div data="${data[i]._id}">
+                            <button data="${data[i]._id}" type="button" class="delete_button btn btn-info button-padding" style= "margin-top: 0px;"
+>
                                 <span class="graphic"></span>Delete
                             </button> 
-                            </div>`);
+                            </div>
+                           `);
                 }
+
+                 $("#admin_messages").append(`
+             `);
     } //end of for loop
 }
 
@@ -823,7 +829,7 @@ function register_all_callbacks(e) {
       $(document.body).on('click', '.delete_button', delete_admin_post); //need to handle these dynamically. Normal jquery click wont work
    
 
-     //setInterval(fetch_admin_messages, 5000);
+     setInterval(fetch_admin_messages, 5000);
 }
 
 $(document).ready(register_all_callbacks);
