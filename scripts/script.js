@@ -550,6 +550,7 @@ function sign_out(){
         $("#admin_only").addClass("hidden");
        // change_view("login_view");
         set_login_logout_button();
+        location.reload();
 }
 
 function set_login_logout_button() {
