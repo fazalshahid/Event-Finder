@@ -155,9 +155,9 @@ function listing_view(events) {
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">Note</span>
-                    <input  type="text" class="form-control">
+                    <input id="mynote${events[i].id}" type="text" class="form-control">
                     <div class="input-group-btn">
-                        <button id = "my${events[i].id}" type="button" class="btn btn-warning">
+                        <button id = "my${events[i].id}" type="button" class="btn btn-warning" data-toggle="tooltip" title="Add to my event">
                             +
                         </button>
                     </div>
@@ -180,7 +180,7 @@ function listing_view(events) {
 
             $("#my"+events[i].id).click(() => {
                 console.log("small clicked");
-            add_to_my_events(events[i].id);
+            add_to_my_events(events[i].id,$("#mynote"+events[i].id).val());
 
         });
             $("#my-event-div"+events[i].id).mouseenter(() => {
@@ -603,14 +603,14 @@ function get_my_events(){
     });
 }
 
-function add_to_my_events(id){
+function add_to_my_events(id,note){
     $.ajax({
         type: 'POST',
 
         //contentType: "application/json",
         data: {
             id:id,
-            note:""
+            note:note
         },
         headers: auth_headers(),
         url: MY_EVENT_URL,
