@@ -70,7 +70,7 @@ app.get('/events', eventsHandler.get_events_list);
 
 var mongoose = require('mongoose');
 
-mongoose.connect(LOCAL_MONGO_URL, {
+mongoose.connect(MONGO_URL, {
   useMongoClient: true,
   /* other options */
 });

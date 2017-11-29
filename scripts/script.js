@@ -339,7 +339,7 @@ function my_events_view(events) {
             }
             else{
                 console.log("I'm here");
-                edit_my_event(events[i].event_id, events[i].note);
+                edit_my_event(events[i].event_id,$("#mynote"+events[i].event_id).val());
             }
             
 
@@ -742,6 +742,8 @@ function add_to_my_events(id,note){
 //To do
 function edit_my_event(id, note){
     //var id="1234";
+    console.log("note");
+    console.log(note);
     $.ajax({
         type: 'PUT',
         //contentType: "application/json",

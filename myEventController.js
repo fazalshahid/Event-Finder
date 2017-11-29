@@ -67,11 +67,14 @@ function edit_event(req,res,user){
         }else{
 
             //console.log(event[0]);
+            console.log("request")
+            console.log(req.body)
             event.note = req.body.note;
+            //console.log(req.body.note);
             //event.save();
             event.save(function(err,saved){
                 console.log(saved);
-                console.log("Im here");
+                //console.log("Im here");
                 if(err){
                     return res.status(200).send(err);
                 }
