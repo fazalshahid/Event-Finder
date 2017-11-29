@@ -347,6 +347,7 @@ function clear_view () {
 
 function login_view() {
     $("#login-form").removeClass("hidden");
+     $('#login-form').removeClass("animated flipInX").addClass("animated flipInX");
 }
 
 function register_view() {
