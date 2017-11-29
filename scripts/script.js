@@ -143,6 +143,9 @@ function listing_view(events) {
         
     current_events = events;
         for(let i=0; i<events.length; i++) {
+            if(typeof(events[i].in_my_events)=="undefined" || (events[i].in_my_events==false)){
+                console.log(events[i].in_my_events);
+                console.log(typeof(events[i].in_my_events));
             $("#events_list").append(
                 `<a  class="list-group-item animated flipInX" id="${events[i].id}">
 <div class = "container">
@@ -174,7 +177,7 @@ function listing_view(events) {
                 scroll = $(window).scrollTop();
 	            clear_view();
 	            change_view("detailed_view", events[i].id);
-				
+
 				current_row = events[i].id;
 	        });
 
@@ -198,12 +201,84 @@ function listing_view(events) {
             console.log("mouse leave");
         });
 
+
         }
+        else{
+        $("#events_list").append(
+            `<a  class="list-group-item animated flipInX" id="${events[i].id}">
+<div class = "container">
+    <div class = "row">
+    <div class="col-md-4 col-sm-2">
+                    <p>${events[i].name}
+          </div>
+    
+        <div id="my-event-div${events[i].id}" class="col-md-7 col-sm-3">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Note</span>
+                    <input id="mynote${events[i].id}" type="text" class="form-control">
+                    <div class="input-group-btn">
+                        <button id = "my${events[i].id}" type="button" class="btn btn-warning" data-toggle="tooltip" title="Add to my event">
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                       ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
+                 </a>`);
+
+        $("#"+events[i].id).click(() => {
+            scroll = $(window).scrollTop();
+        clear_view();
+        change_view("detailed_view", events[i].id);
+
+        current_row = events[i].id;
+    });
+
+        $("#my"+events[i].id).click(() => {
+            console.log("small clicked");
+        add_to_my_events(events[i].id,$("#mynote"+events[i].id).val());
+
+    });
+        $("#my-event-div"+events[i].id).mouseenter(() => {
+            $("#"+events[i].id).unbind("click");
+        console.log("mouse enter");
+    });
+        $("#my-event-div"+events[i].id).mouseleave(() => {
+            $("#"+events[i].id).bind("click",() => {
+            scroll = $(window).scrollTop();
+        clear_view();
+        change_view("detailed_view", events[i].id);
+
+        current_row = events[i].id;
+    });
+        console.log("mouse leave");
+    });
+
+
+    }
+
+    }
+
+
+
 
 	if(scroll!=0){
 			$(window).scrollTop(scroll);
 		    scroll=0;
 		}    
+}
+
+function show_note_add_listing_view(id){
+
+}
+
+function hide_note_add_listing_view(id){
+
 }
 
 function my_events_view(events) {

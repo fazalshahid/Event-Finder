@@ -33,6 +33,7 @@ function get_events_list(req, res) {
                                             function (event) {return event.event_id == data._embedded.events[i].id}))
                                             != "undefined") {
                                             data._embedded.events[i].in_my_events = true;
+                                            console.log("happens");
                                         }
                                         else {
                                             data._embedded.events[i].in_my_events = false;

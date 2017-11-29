@@ -70,7 +70,7 @@ app.get('/events', eventsHandler.get_events_list);
 
 var mongoose = require('mongoose');
 
-mongoose.connect(MONGO_URL, {
+mongoose.connect(LOCAL_MONGO_URL, {
   useMongoClient: true,
   /* other options */
 });
@@ -83,3 +83,4 @@ db.once('open', function() {
 app.listen(process.env.PORT || 3000,function(){
     console.log("The server is listening on port 3000");
 });
+
