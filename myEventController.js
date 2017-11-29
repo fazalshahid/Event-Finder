@@ -81,7 +81,6 @@ function edit_event(req,res,user){
                 }
             });
         }
-        }
     });
 }
 
