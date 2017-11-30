@@ -31,6 +31,8 @@ let default_cookie_expiration = 500000000000000000000000000000000 //2 days
 let old_size=0;
 let new_size=0;
 
+let detailed_parent="";
+
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -63,9 +65,11 @@ function detailed_view(id){
         async:true,
         dataType: "json",
         success: function(json) {
+            console.log(json);
             $("#eventName").html(json.name);
 
             if( Object.prototype.hasOwnProperty.call(json, 'images')){
+                console.log("image happens");
                 if(json.images.length > 0){
                     let src= "<img src=" + json.images[1].url+ " width=\"85%\" height=\"40%\">";
                     $("#images").html(src);
@@ -73,18 +77,20 @@ function detailed_view(id){
             }
             
             if( Object.prototype.hasOwnProperty.call(json, 'dates')){
+                console.log("date happens");
                 $("#eventDate").html("Date: " + json.dates.start.localDate);
                 $("#startTime").html("Start Time: " + json.dates.start.localTime);
             }
             //$("#endTime").html("End Time: " + json.dates.end.localTime);
             if( Object.prototype.hasOwnProperty.call(json, 'promoter')){
-
+                console.log("promoter happens");
                 $("#promoter").html("Event promoter: " + json.promoter.name);
             //$("#promoter").html("Event promoter: " + json.description);
             }
             
             
            if( Object.prototype.hasOwnProperty.call(json, 'priceRanges')){
+               console.log("pricerange happens");
                 if(json.priceRanges.length > 0){
                     var price_range = "Ticket Price Range: " + json.priceRanges[0].currency + " " + json.priceRanges[0].min + " - " + json.priceRanges[0].max;
                     $("#priceRange").html(price_range);
@@ -230,6 +236,7 @@ function listing_view(events) {
         $("#"+ events[i].id).click(function() {
             scroll = $(window).scrollTop();
             clear_view();
+            detailed_parent="listing_view";
             change_view("detailed_view", events[i].id);
 
             current_row = events[i].id;
@@ -268,6 +275,7 @@ function listing_view(events) {
             $("#"+events[i].id).bind("click",() => {
             scroll = $(window).scrollTop();
         clear_view();
+        detailed_parent = "listing_view";
         change_view("detailed_view", events[i].id);
 
         current_row = events[i].id;
@@ -337,6 +345,7 @@ function my_events_view(events) {
         $("#"+events[i].event_id).click(() => {
             scroll = $(window).scrollTop();
         clear_view();
+        detailed_parent = "my_events_view";
         change_view("detailed_view", events[i].event_id);
 
         current_row = events[i].event_id;
@@ -370,6 +379,7 @@ function my_events_view(events) {
             $("#"+events[i].event_id).bind("click",() => {
             scroll = $(window).scrollTop();
         clear_view();
+        detailed_parent = "my_events_view";
         change_view("detailed_view", events[i].event_id);
 
         current_row = events[i].event_id;
@@ -378,11 +388,12 @@ function my_events_view(events) {
 
     });
     }
-
+/*
     if(scroll!=0){
         $(window).scrollTop(scroll);
         scroll=0;
     }
+    */
 }
 
 function map_view (events) {
@@ -412,6 +423,24 @@ function map_view (events) {
     $('#map_view').removeClass("animated flipInX").addClass("animated flipInX");
     google.maps.event.trigger(map, 'resize');
     map.setCenter(TORONTO);
+}
+
+function listing_view_new(){
+
+    $( "#eventDetails" ).addClass( "hidden" );
+    $("#events_list").empty();
+
+    for (marker of markers)
+        marker.setMap(null);
+    markers = [];
+    $("#map_view").hide();
+    $("#login-form").addClass("hidden");
+    $("#register-form").addClass("hidden");
+    $(".filter_input_fields").removeClass("hidden");
+    current_view_type = "listing_view";
+    filter_action();
+
+
 }
 
 function clear_view () {
@@ -499,11 +528,14 @@ function filter_action (e) {
         let classification = $("#classification_filter").val();
         let city = $("#city_filter").val();
         let country = $("#country_filter").val();
+        clear_view();
+
 
         $.ajax({type:'GET',
             url: `${EVENTS_URL}?classificationName=${classification}&city=${city}&countryCode=${country}`,
             headers: auth_headers(),
             success: (res) => {
+            console.log("filter");
             console.log(res);
                 if (Object.prototype.hasOwnProperty.call(res, '_embedded')) {
                     change_view(current_view_type, res._embedded.events);
@@ -757,6 +789,7 @@ function get_my_events(){
             }
             else {
                 console.log(data);
+                clear_view();
                 change_view("my_events_view", data);
             }
         }
@@ -948,8 +981,14 @@ function delete_admin_post(){
 function register_all_callbacks(e) {
 
     $("#back-button").click(function() {
-        change_view("listing_view", current_events);
-        $("#eventDetails").addClass("hidden");
+        if(detailed_parent == "listing_view") {
+            change_view("listing_view", current_events);
+            $("#eventDetails").addClass("hidden");
+        }
+        else{
+            $("#eventDetails").addClass("hidden");
+            get_my_events();
+        }
     });
 
 
@@ -957,8 +996,9 @@ function register_all_callbacks(e) {
 
     $("#top-event-list-button").click(
         () => {
-        filter_action();
-        change_view("listing_view", current_events);
+        listing_view_new();
+        //filter_action();
+        //change_view("listing_view", current_events);
     });
     $("#top-event-map-button").click(
         () => {change_view("map_view", current_events)});
