@@ -236,7 +236,7 @@ li { cursor: pointer; }
 }
 
 body, html {
-    background-color: blue;
+    background-color: white;
     height: 100%;
     margin: 0;
     font: 400 15px/1.8;
