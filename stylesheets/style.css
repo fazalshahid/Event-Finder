@@ -157,10 +157,13 @@
 padding-top: 20px;
 }
 
+#details_list {
+    color:black;
+}
+
 #eventName{
 font-size: 30px;
 padding-bottom: 30px;
-color: white;
 }
 
 .details_list{
@@ -233,7 +236,7 @@ li { cursor: pointer; }
 }
 
 body, html {
-    background-color: blue;
+    background-color: white;
     height: 100%;
     margin: 0;
     font: 400 15px/1.8;
