@@ -1,4 +1,4 @@
-TICKETMASTER_BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json?size=190&apikey=";
+TICKETMASTER_BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json?size=20&apikey=";
 TICKETMASTER_API_KEY = "27mLqO6JmMfWlES8MKnMVG1tkm75I9cE";
 TICKETMASTER_URL = TICKETMASTER_BASE_URL + TICKETMASTER_API_KEY;
 //https://app.ticketmaster.com/discovery/v2/events.json?apikey=27mLqO6JmMfWlES8MKnMVG1tkm75I9cE
@@ -141,12 +141,12 @@ function detailed_view(id){
 }
 
 function listing_view(events) {
-        
+
     current_events = events;
-        for(let i=0; i<events.length; i++) {
-            if(typeof(events[i].in_my_events)=="undefined" || (events[i].in_my_events==false)){
-                console.log(events[i].in_my_events);
-                console.log(typeof(events[i].in_my_events));
+    for(let i=0; i<events.length; i++) {
+        if(typeof(events[i].in_my_events)=="undefined" || (events[i].in_my_events==false)){
+            console.log(events[i].in_my_events);
+            console.log(typeof(events[i].in_my_events));
             $("#events_list").append(
                 `<a  class="list-group-item animated flipInX" id="${events[i].id}">
 <div class = "container">
@@ -164,6 +164,12 @@ function listing_view(events) {
                         <button id = "my${events[i].id}" type="button" class="btn btn-warning" data-toggle="tooltip" title="Add to my event">
                             +
                         </button>
+                        <button id = "ed${events[i].id}" type="button" class="btn btn-warning hidden" data-toggle="tooltip">
+                            Edit Note
+                        </button>
+                        <button id = "rm${events[i].id}" type="button" class="btn btn-danger hidden" data-toggle="tooltip" title= "Remove From my Events">
+                            X
+                        </button>
                     </div>
                 </div>
             </div>
@@ -174,53 +180,32 @@ function listing_view(events) {
                     <p>   ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
                  </a>`);
 
-	        $("#"+events[i].id).click(() => {
-                scroll = $(window).scrollTop();
-	            clear_view();
-	            change_view("detailed_view", events[i].id);
-
-				current_row = events[i].id;
-	        });
-
-            $("#my"+events[i].id).click(() => {
-                console.log("small clicked");
-            add_to_my_events(events[i].id,$("#mynote"+events[i].id).val());
-
-        });
-            $("#my-event-div"+events[i].id).mouseenter(() => {
-                $("#"+events[i].id).unbind("click");
-                console.log("mouse enter");
-        });
-            $("#my-event-div"+events[i].id).mouseleave(() => {
-                $("#"+events[i].id).bind("click",() => {
-                scroll = $(window).scrollTop();
-            clear_view();
-            change_view("detailed_view", events[i].id);
-
-            current_row = events[i].id;
-        });
-            console.log("mouse leave");
-        });
-
 
         }
-        else{
-        $("#events_list").append(
-            `<a  class="list-group-item animated flipInX" id="${events[i].id}">
+        else {
+            $("#events_list").append(
+                `<a  class="list-group-item animated flipInX" id="${events[i].event_id}">
+
 <div class = "container">
     <div class = "row">
     <div class="col-md-4 col-sm-2">
-                    <p>${events[i].name}
+                    <p>${events[i].name}</p>
           </div>
     
         <div id="my-event-div${events[i].id}" class="col-md-7 col-sm-3">
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">Note</span>
-                    <input id="mynote${events[i].id}" type="text" class="form-control">
+                    <input id="mynote${events[i].id}" type="text" class="form-control" value="${events[i].note}" readonly>
                     <div class="input-group-btn">
-                        <button id = "my${events[i].id}" type="button" class="btn btn-warning" data-toggle="tooltip" title="Add to my event">
-                            Edit
+                        <button id = "ed${events[i].id}" type="button" class="btn btn-warning" data-toggle="tooltip">
+                            Edit Note
+                        </button>
+                        <button id = "rm${events[i].id}" type="button" class="btn btn-danger" data-toggle="tooltip" title= "Remove From my Events">
+                            X
+                        </button>
+                        <button id = "my${events[i].id}" type="button" class="btn btn-warning hidden" data-toggle="tooltip" title="Add to my event">
+                            +
                         </button>
                     </div>
                 </div>
@@ -229,25 +214,55 @@ function listing_view(events) {
     </div>
 </div>
 
-                       ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
+                    <p>${events[i].dates.start.localDate} @${events[i].dates.start.localTime}</p>
                  </a>`);
+        }
 
-        $("#"+events[i].id).click(() => {
-            scroll = $(window).scrollTop();
-        clear_view();
-        change_view("detailed_view", events[i].id);
-
-        current_row = events[i].id;
-    });
 
         $("#my"+events[i].id).click(() => {
             console.log("small clicked");
+            console.log(events[i].id);
         add_to_my_events(events[i].id,$("#mynote"+events[i].id).val());
+
+    });
+
+
+        $("#"+ events[i].id).click(function() {
+            scroll = $(window).scrollTop();
+            clear_view();
+            change_view("detailed_view", events[i].id);
+
+            current_row = events[i].id;
+        });
+
+
+        $("#rm" + events[i].id).click(function() {
+
+            delete_my_event_listing_view(events[i].id);
+
+        } );
+
+
+
+
+
+
+
+        $("#ed"+events[i].id).click(() => {
+            if ($("#ed"+events[i].id).text() != "Submit"){
+            $("#ed"+events[i].id).text("Submit");
+            $("#mynote"+events[i].id).removeAttr("readonly");
+        }
+    else{
+            console.log("I'm here");
+            edit_my_event_listing_view(events[i].id,$("#mynote"+events[i].id).val());
+        }
+
 
     });
         $("#my-event-div"+events[i].id).mouseenter(() => {
             $("#"+events[i].id).unbind("click");
-        console.log("mouse enter");
+
     });
         $("#my-event-div"+events[i].id).mouseleave(() => {
             $("#"+events[i].id).bind("click",() => {
@@ -257,21 +272,23 @@ function listing_view(events) {
 
         current_row = events[i].id;
     });
-        console.log("mouse leave");
+
+
     });
 
 
+
+
+
     }
 
+
+
+    if(scroll!=0){
+        $(window).scrollTop(scroll);
+        scroll=0;
     }
 
-
-
-
-	if(scroll!=0){
-			$(window).scrollTop(scroll);
-		    scroll=0;
-		}    
 }
 
 function show_note_add_listing_view(id){
@@ -284,7 +301,7 @@ function hide_note_add_listing_view(id){
 
 function my_events_view(events) {
     //current_events = events;
-
+    $("#events_list").empty();
     for(let i=0; i<events.length; i++) {
         $("#events_list").append(
             `<a  class="list-group-item animated flipInX" id="${events[i].event_id}">
@@ -327,7 +344,7 @@ function my_events_view(events) {
 
         $("#rm"+events[i].event_id).click(() => {
 
-        delete_my_event(events[i].event_id);
+            delete_my_event(events[i].event_id);
 
     });
 
@@ -736,7 +753,7 @@ function get_my_events(){
         url: MY_EVENTS_URL,
         success: function(data){
             if(data=="Unauthorized"){
-                console.log("Login required")
+                alert("Login required");
             }
             else {
                 console.log(data);
@@ -746,11 +763,36 @@ function get_my_events(){
     });
 }
 
+function make_event_added_listing_view(id){
+    console.log("in added listing");
+    console.log("#ed"+id);
+    console.log(id);
+    $("#ed"+id).removeClass("hidden");
+    $("#rm"+id).removeClass("hidden");
+    $("#my"+id).addClass("hidden");
+    $("#mynote"+id).attr("readonly",true);
+
+}
+
+function make_event_to_add_listing_view(id,note){
+
+    $("#ed"+id).addClass("hidden");
+    $("#rm"+id).addClass("hidden");
+    $("#my"+id).removeClass("hidden");
+    $("#mynote"+id).removeAttr("readonly");
+    $("#mynote"+id).val("");
+
+
+}
+
 function add_to_my_events(id,note){
+
+    console.log("added called");
     $.ajax({
         type: 'POST',
 
         //contentType: "application/json",
+
         data: {
             id:id,
             note:note
@@ -759,13 +801,39 @@ function add_to_my_events(id,note){
         url: MY_EVENT_URL,
         success: function(res){
             console.log(res);
+            make_event_added_listing_view(id,note)
+
+
                 
             
         }
     });
 }
 
+function edit_my_event_listing_view(id, note){
+    //var id="1234";
+    console.log("note");
+    console.log(note);
+    $.ajax({
+        type: 'PUT',
+        //contentType: "application/json",
+        headers:auth_headers(),
+        data: {
+            note: note
+        },
+        url: MY_EVENT_URL+id,
+        success: function(res){
+            console.log("submut button");
+            console.log(res);
+            console.log(id);
+            $("#ed"+id).text("Edit Note");
+            //$("#mynote"+id).val("llmmmmmmmm");
+            $("#mynote"+id).attr("readonly",true);
+           //console.log( $("#mynote"+id).attr());
 
+        }
+    });
+}
 //To do
 function edit_my_event(id, note){
     //var id="1234";
@@ -797,6 +865,19 @@ function delete_my_event(id){
         success: function(res){
             console.log(res);
             get_my_events();
+        }
+    });
+}
+
+function delete_my_event_listing_view(id){
+    $.ajax({
+        type: 'DELETE',
+        headers:auth_headers(),
+        url: MY_EVENT_URL + id,
+        success: function(res){
+            console.log(res);
+            make_event_to_add_listing_view(id)
+
         }
     });
 }
@@ -875,7 +956,10 @@ function register_all_callbacks(e) {
     $("#filter_button").click(filter_action);
 
     $("#top-event-list-button").click(
-        () => {change_view("listing_view", current_events);});
+        () => {
+        filter_action();
+        change_view("listing_view", current_events);
+    });
     $("#top-event-map-button").click(
         () => {change_view("map_view", current_events)});
     $("#top-my_event-list-button").click(

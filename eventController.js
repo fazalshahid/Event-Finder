@@ -30,9 +30,14 @@ function get_events_list(req, res) {
                                     data = JSON.parse(data);
                                     for (let i = 0; i < data._embedded.events.length; i++) {
                                         if (typeof(events.find(
-                                            function (event) {return event.event_id == data._embedded.events[i].id}))
+                                            //function (event) {return event.event_id == data._embedded.events[i].id}))
+                                                function (event) { if (event.event_id == data._embedded.events[i].id){
+                                                    data._embedded.events[i].note = event.note
+                                                    return event.event_id == data._embedded.events[i].id}
+                                                else return false}))
                                             != "undefined") {
                                             data._embedded.events[i].in_my_events = true;
+                                           // data._embedded.events[i].note = event.note;
                                             console.log("happens");
                                         }
                                         else {

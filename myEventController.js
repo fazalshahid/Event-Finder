@@ -60,7 +60,7 @@ function add_event(req,res,user){
 }
 
 function edit_event(req,res,user){
-    Event.findOne({event_id:req.params.id},function(err,event){
+    Event.findOne({event_id:req.params.id,email:user.email},function(err,event){
         if(err){
             console.log("error");
             return res.status(200).send(err);
@@ -80,7 +80,7 @@ function edit_event(req,res,user){
                 }
                 else{
                     
-                    return res.status(200).send("success");
+                    return res.status(200).send(saved);
                 }
             });
         }
@@ -88,7 +88,7 @@ function edit_event(req,res,user){
 }
 
 function remove_event(req,res,user){
-    Event.remove({event_id:req.params.id},function(err){
+    Event.remove({event_id:req.params.id,email:user.email},function(err){
 
             if(err){
                 return res.status(200).send(err);
