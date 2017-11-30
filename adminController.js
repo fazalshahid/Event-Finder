@@ -55,7 +55,8 @@ function postMessage(req,res,user){
 
 function deleteMessage(req,res,user){
 
-    
+     console.log("In delete message function");
+
     Admin.remove({"_id": req.params.id },function(err,messages){
 
         if(err){
@@ -78,15 +79,19 @@ function deleteMessage(req,res,user){
 exports.getMessages = function(req,res){
 
 //Clients and Admin both can get messages posted by Admin so authentication is common.
-    session.authenticate(req,res,getMessages);
+   // session.authenticate(req,res,getMessages);
 
+
+    getMessages(req,res);
 }
 
 exports.postMessage = function(req,res){
 
     //only admin can post a msg
-   
+    
+    postMessage(req,res);
 
+    /*
     var payload = jwt.decode((req.headers.authorization).split(" ")[1], 'secret');
             
     
@@ -100,6 +105,7 @@ exports.postMessage = function(req,res){
         else{
             return res.status(401).send("Unauthorized..Only Admin can access this");
         }
+        */
 
     // console.log(request.body.user.name);
     //console.log(request.body.user.email);
@@ -112,10 +118,11 @@ exports.deleteMessage = function(req,res){
 
     //only admin can delete a msg
 
+    console.log("Got a delete message request");
 
-    
+    deleteMessage(req, res);
 
-    var payload = jwt.decode((req.headers.authorization).split(" ")[1], 'secret');
+  /*  var payload = jwt.decode((req.headers.authorization).split(" ")[1], 'secret');
     
 
     var email = payload.sub;
@@ -128,7 +135,7 @@ exports.deleteMessage = function(req,res){
         else{
             return res.status(401).send("Unauthorized..Only Admin can access this");
         }
-   
+   */
 }
 
 
