@@ -221,7 +221,7 @@ li { cursor: pointer; }
 }
 
 body, html {
-    background-color: white;
+    background-color: blue;
     height: 100%;
     margin: 0;
     font: 400 15px/1.8;
