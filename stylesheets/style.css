@@ -145,10 +145,13 @@
 padding-top: 20px;
 }
 
+#details_list {
+    color:black;
+}
+
 #eventName{
 font-size: 30px;
 padding-bottom: 30px;
-color: white;
 }
 
 .details_list{
