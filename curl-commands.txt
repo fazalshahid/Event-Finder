@@ -1,0 +1,3 @@
+curl -X "DELETE" http://localhost:3000/api/messages/5a1f5a054bd03ed7daf084a0        (to delete a POST)
+curl -X "GET" http://localhost:3000/api/messages/                                   (to get messages)
+curl -d "msg=hello acdef" http://localhost:3000/api/messages/                       (to post messages)
