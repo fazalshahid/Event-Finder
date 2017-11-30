@@ -53,6 +53,15 @@ function initDetailedMap() {
    $("#detailed_map_view").hide();
 }
 
+function show_my_event_header(){
+    $("#header_my_events").removeClass("hidden");
+    $("#filter_inp_fields").addClass("hidden");
+}
+function hide_my_event_header(){
+    $("#header_my_events").addClass("hidden");
+    $("#filter_inp_fields").removeClass("hidden");
+}
+
 function detailed_view(id){
 
     var url_string= "https://app.ticketmaster.com/discovery/v2/events/" + id + ".json?apikey=27mLqO6JmMfWlES8MKnMVG1tkm75I9cE" ;
@@ -157,7 +166,7 @@ function listing_view(events) {
                 `<a  class="list-group-item animated flipInX" id="${events[i].id}">
 <div class = "container">
     <div class = "row">
-    <div class="col-md-4 col-sm-2">
+    <div  class="col-md-4 col-sm-2">
                     <p>${events[i].name}</p>
           </div>
     
@@ -182,8 +191,9 @@ function listing_view(events) {
         </div>
     </div>
 </div>
-
+                   
                     <p>   ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
+                    
                  </a>`);
 
 
@@ -220,7 +230,7 @@ function listing_view(events) {
     </div>
 </div>
 
-                    <p>${events[i].dates.start.localDate} @${events[i].dates.start.localTime}</p>
+                    <p>  ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}</p>
                  </a>`);
         }
 
@@ -308,6 +318,7 @@ function hide_note_add_listing_view(id){
 }
 
 function my_events_view(events) {
+    show_my_event_header();
     //current_events = events;
     $("#events_list").empty();
     for(let i=0; i<events.length; i++) {
@@ -444,6 +455,8 @@ function listing_view_new(){
 }
 
 function clear_view () {
+
+    hide_my_event_header();
     //Clear detailed view
     $( "#eventDetails" ).addClass( "hidden" );
 
