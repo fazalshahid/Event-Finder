@@ -832,8 +832,12 @@ function make_event_to_add_listing_view(id,note){
 }
 
 function add_to_my_events(id,note){
+    if(!is_logged_in()){
+        alert("Please Login to add event to your list");
+        return;
+    }
 
-    console.log("added called");
+    //console.log("added called");
     $.ajax({
         type: 'POST',
 
@@ -858,6 +862,10 @@ function add_to_my_events(id,note){
 
 function edit_my_event_listing_view(id, note){
     //var id="1234";
+    if(!is_logged_in()){
+        alert("Please Login to edit your event note");
+        return;
+    }
     console.log("note");
     console.log(note);
     $.ajax({
@@ -882,6 +890,10 @@ function edit_my_event_listing_view(id, note){
 }
 //To do
 function edit_my_event(id, note){
+    if(!is_logged_in()){
+        alert("Please Login to add event to your list");
+        return;
+    }
     //var id="1234";
     console.log("note");
     console.log(note);
@@ -904,6 +916,10 @@ function edit_my_event(id, note){
 }
 
 function delete_my_event(id){
+    if(!is_logged_in()){
+        alert("Please Login to remove event from your list");
+        return;
+    }
     $.ajax({
         type: 'DELETE',
         headers:auth_headers(),
@@ -916,6 +932,10 @@ function delete_my_event(id){
 }
 
 function delete_my_event_listing_view(id){
+    if(!is_logged_in()){
+        alert("Please Login to remove event from your list");
+        return;
+    }
     $.ajax({
         type: 'DELETE',
         headers:auth_headers(),
