@@ -338,7 +338,7 @@ function my_events_view(events) {
     $("#events_list").empty();
     for(let i=0; i<events.length; i++) {
         $("#events_list").append(
-            `<a  class="list-group-item animated flipInX" id="${events[i].event_id}">
+            `<a  class="list-group-item " id="${events[i].event_id}">
 
 <div class = "container">
     <div class = "row">
