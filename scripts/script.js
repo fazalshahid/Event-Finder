@@ -200,7 +200,7 @@ function listing_view(events) {
     </div>
 </div>
                    
-                    <p>   ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
+                    <p class="date_list">   ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}<p/>
                     
                  </a>`);
 
@@ -238,7 +238,7 @@ function listing_view(events) {
     </div>
 </div>
 
-                    <p>  ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}</p>
+                    <p class="date_list">  ${events[i].dates.start.localDate} @${events[i].dates.start.localTime}</p>
                  </a>`);
         }
 
@@ -365,7 +365,7 @@ function my_events_view(events) {
     </div>
 </div>
 
-                    <p>${events[i].date} @${events[i].time}</p>
+                    <p class="date_list">${events[i].date} @${events[i].time}</p>
                  </a>`);
 
         $("#"+events[i].event_id).click(() => {
@@ -382,7 +382,7 @@ function my_events_view(events) {
             delete_my_event(events[i].event_id);
 
     });
-console.log("change");
+//console.log("change");
         $("#ed"+events[i].event_id).click( function(){
             if (($("#ed"+events[i].event_id).text()) != "Submit"){
                 $("#ed"+events[i].event_id).text("Submit");
@@ -517,7 +517,9 @@ function change_view(view_type, data) {
          $("#admin_msg_box").css("visibility", "visible");      
            
              $("#admin_msg_box").addClass("animated flipInX");      
-             $(".filter_input_fields").addClass("animated flipInX");    
+             $(".filter_input_fields").addClass("animated flipInX");  
+
+             console.log("In changing view, i have made admin box and fields")  
         listing_view(data);
         set_login_logout_button();
     }
@@ -794,8 +796,9 @@ function appendAdminMessages(data){
         //onsole.log("admin is logged in");
     }
 
-    if(new_size > old_size){
-      //  console.log("new size is greater than old size. New msg arrived");
+
+    if(new_size > old_size && old_size != 0){
+        console.log("new size is greater than old size. New msg arrived");
         add_animation = 1;
     
     }
@@ -1011,7 +1014,7 @@ function admin_post(){
 
         //contentType: "application/json",
         data: {
-            msg:msg
+            data:msg
         },
 
         headers:auth_headers(),

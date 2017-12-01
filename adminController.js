@@ -33,7 +33,7 @@ function postMessage(req,res,user){
     
 
             admin = new Admin();
-            data = req.body.msg;
+            data = req.body.data;
 
          
 
