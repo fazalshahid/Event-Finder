@@ -82,6 +82,10 @@
     overflow: scroll;
 }*/
 
+.date_list{
+    margin-left: 10px;
+}
+
 #post_button{
     margin-top: 0px;
     margin-bottom: 20px;
