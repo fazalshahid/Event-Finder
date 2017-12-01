@@ -12,6 +12,10 @@ SIGNUP_URL = OUR_SERVER_BASE_URL + "/sign_up";
 SIGNIN_URL = OUR_SERVER_BASE_URL + "/sign_in";
 
 EVENTS_URL = OUR_SERVER_BASE_URL + "/events";
+EVENTS_FILTER_URL =OUR_SERVER_BASE_URL + "/events_filter";
+EVENTS_SAVED_URL =OUR_SERVER_BASE_URL + "/events_saved";
+
+
 
 ADMIN_GET_URL = OUR_SERVER_BASE_URL + "/api/messages";
 ADMIN_POST_URL = OUR_SERVER_BASE_URL + "/api/messages";
@@ -32,6 +36,8 @@ let old_size=0;
 let new_size=0;
 
 let detailed_parent="";
+
+
 
 
 function initMap() {
@@ -62,6 +68,8 @@ function hide_my_event_header(){
     $("#filter_inp_fields").removeClass("hidden");
 }
 
+
+
 function detailed_view(id){
 
     var url_string= "https://app.ticketmaster.com/discovery/v2/events/" + id + ".json?apikey=27mLqO6JmMfWlES8MKnMVG1tkm75I9cE" ;
@@ -74,11 +82,11 @@ function detailed_view(id){
         async:true,
         dataType: "json",
         success: function(json) {
-            console.log(json);
+           // console.log(json);
             $("#eventName").html(json.name);
 
             if( Object.prototype.hasOwnProperty.call(json, 'images')){
-                console.log("image happens");
+                //console.log("image happens");
                 if(json.images.length > 0){
                     let src= "<img src=" + json.images[1].url+ " width=\"85%\" height=\"40%\">";
                     $("#images").html(src);
@@ -86,20 +94,20 @@ function detailed_view(id){
             }
             
             if( Object.prototype.hasOwnProperty.call(json, 'dates')){
-                console.log("date happens");
+              //  console.log("date happens");
                 $("#eventDate").html("Date: " + json.dates.start.localDate);
                 $("#startTime").html("Start Time: " + json.dates.start.localTime);
             }
             //$("#endTime").html("End Time: " + json.dates.end.localTime);
             if( Object.prototype.hasOwnProperty.call(json, 'promoter')){
-                console.log("promoter happens");
+                //console.log("promoter happens");
                 $("#promoter").html("Event promoter: " + json.promoter.name);
             //$("#promoter").html("Event promoter: " + json.description);
             }
             
             
            if( Object.prototype.hasOwnProperty.call(json, 'priceRanges')){
-               console.log("pricerange happens");
+              // console.log("pricerange happens");
                 if(json.priceRanges.length > 0){
                     var price_range = "Ticket Price Range: " + json.priceRanges[0].currency + " " + json.priceRanges[0].min + " - " + json.priceRanges[0].max;
                     $("#priceRange").html(price_range);
@@ -160,8 +168,8 @@ function listing_view(events) {
     current_events = events;
     for(let i=0; i<events.length; i++) {
         if(typeof(events[i].in_my_events)=="undefined" || (events[i].in_my_events==false)){
-            console.log(events[i].in_my_events);
-            console.log(typeof(events[i].in_my_events));
+           // console.log(events[i].in_my_events);
+           // console.log(typeof(events[i].in_my_events));
             $("#events_list").append(
                 `<a  class="list-group-item animated flipInX" id="${events[i].id}">
 <div class = "container">
@@ -200,7 +208,7 @@ function listing_view(events) {
         }
         else {
             $("#events_list").append(
-                `<a  class="list-group-item animated flipInX" id="${events[i].event_id}">
+                `<a  class="list-group-item animated flipInX" id="${events[i].id}">
 
 <div class = "container">
     <div class = "row">
@@ -236,8 +244,8 @@ function listing_view(events) {
 
 
         $("#my"+events[i].id).click(() => {
-            console.log("small clicked");
-            console.log(events[i].id);
+          //  console.log("small clicked");
+          //  console.log(events[i].id);
         add_to_my_events(events[i].id,$("#mynote"+events[i].id).val());
 
     });
@@ -270,19 +278,26 @@ function listing_view(events) {
             $("#ed"+events[i].id).text("Submit");
             $("#mynote"+events[i].id).removeAttr("readonly");
         }
-    else{
-            console.log("I'm here");
-            edit_my_event_listing_view(events[i].id,$("#mynote"+events[i].id).val());
-        }
+        else{
+               // console.log("I'm here");
+                edit_my_event_listing_view(events[i].id,$("#mynote"+events[i].id).val());
+           
+
+
+            }
 
 
     });
         $("#my-event-div"+events[i].id).mouseenter(() => {
+            console.log("mouse entered");
             $("#"+events[i].id).unbind("click");
 
     });
-        $("#my-event-div"+events[i].id).mouseleave(() => {
+        console.log("change");
+        $("#my-event-div"+events[i].id).mouseleave(function() {
+            console.log("mouse eleft");
             $("#"+events[i].id).bind("click",() => {
+                console.log("clicked");
             scroll = $(window).scrollTop();
         clear_view();
         detailed_parent = "listing_view";
@@ -367,16 +382,14 @@ function my_events_view(events) {
             delete_my_event(events[i].event_id);
 
     });
-
-        $("#ed"+events[i].event_id).click(() => {
-            //console.log($(this).attr("value"));
-            //console.log($("#ed"+events[i].event_id).text());
+console.log("change");
+        $("#ed"+events[i].event_id).click( function(){
             if (($("#ed"+events[i].event_id).text()) != "Submit"){
                 $("#ed"+events[i].event_id).text("Submit");
                 $("#mynote"+events[i].event_id).removeAttr("readonly");
             }
             else{
-                console.log("I'm here");
+               // console.log("I'm here");
                 edit_my_event(events[i].event_id,$("#mynote"+events[i].event_id).val());
             }
             
@@ -449,7 +462,7 @@ function listing_view_new(){
     $("#register-form").addClass("hidden");
     $(".filter_input_fields").removeClass("hidden");
     current_view_type = "listing_view";
-    filter_action();
+    saved_action();
 
 
 }
@@ -537,20 +550,44 @@ function change_view(view_type, data) {
 
 }
 
+function saved_action (e) {
+
+    clear_view();
+
+
+    $.ajax({type:'GET',
+        //url: `${EVENTS_URL}?classificationName=${classification}&city=${city}&countryCode=${country}`,
+        url: EVENTS_SAVED_URL,
+        headers: auth_headers(),
+        success: (res) => {
+      //  console.log("filter");
+  //  console.log(res);
+    if (Object.prototype.hasOwnProperty.call(res, '_embedded')) {
+        change_view(current_view_type, res._embedded.events);
+    }
+    else {
+        change_view(current_view_type, []);
+    }
+}
+});
+}
+
 function filter_action (e) {
         let classification = $("#classification_filter").val();
         let city = $("#city_filter").val();
         let country = $("#country_filter").val();
-        clear_view();
+       // clear_view();
 
 
         $.ajax({type:'GET',
             url: `${EVENTS_URL}?classificationName=${classification}&city=${city}&countryCode=${country}`,
+            //url: `${EVENTS_FILTER_URL}?classificationName=${classification}&city=${city}&countryCode=${country}`,
             headers: auth_headers(),
             success: (res) => {
             console.log("filter");
             console.log(res);
                 if (Object.prototype.hasOwnProperty.call(res, '_embedded')) {
+                    current_view_type="listing_view";
                     change_view(current_view_type, res._embedded.events);
                 }
                 else {
@@ -723,15 +760,15 @@ function fetch_admin_messages(){
             url: ADMIN_GET_URL,
 
             success: function(data){
-                console.log(data);
+                //console.log(data);
                 //get_my_events();
                 if(data=="Unauthorized"){
-                    console.log("Login required")
+                   // console.log("Login required")
                 }
                 else {
                    // console.log("admin msgs received : " + data);
                     new_size = data.length;
-                     console.log("new size is " + new_size);
+                    // console.log("new size is " + new_size);
                     appendAdminMessages(data);
 
                     //old_size = data.length;
@@ -750,7 +787,7 @@ function appendAdminMessages(data){
     $("#admin_messages").empty();
 
     var email= logged_in_email();
-    console.log("returned email is "+ email);
+  //  console.log("returned email is "+ email);
     if(email == "admin@admin.com"){
         admin= "true";
         $("#admin_only").removeClass("hidden");
@@ -758,7 +795,7 @@ function appendAdminMessages(data){
     }
 
     if(new_size > old_size){
-        console.log("new size is greater than old size. New msg arrived");
+      //  console.log("new size is greater than old size. New msg arrived");
         add_animation = 1;
     
     }
@@ -801,7 +838,7 @@ function get_my_events(){
                 alert("Login required");
             }
             else {
-                console.log(data);
+              //  console.log(data);
                 clear_view();
                 change_view("my_events_view", data);
             }
@@ -810,9 +847,9 @@ function get_my_events(){
 }
 
 function make_event_added_listing_view(id){
-    console.log("in added listing");
-    console.log("#ed"+id);
-    console.log(id);
+   // console.log("in added listing");
+  //  console.log("#ed"+id);
+  //  console.log(id);
     $("#ed"+id).removeClass("hidden");
     $("#rm"+id).removeClass("hidden");
     $("#my"+id).addClass("hidden");
@@ -850,8 +887,10 @@ function add_to_my_events(id,note){
         headers: auth_headers(),
         url: MY_EVENT_URL,
         success: function(res){
-            console.log(res);
-            make_event_added_listing_view(id,note)
+            //console.log(res);
+            make_event_added_listing_view(id,note);
+            modify_current_event(id,"added",note);
+
 
 
                 
@@ -866,8 +905,8 @@ function edit_my_event_listing_view(id, note){
         alert("Please Login to edit your event note");
         return;
     }
-    console.log("note");
-    console.log(note);
+   // console.log("note");
+   // console.log(note);
     $.ajax({
         type: 'PUT',
         //contentType: "application/json",
@@ -877,12 +916,13 @@ function edit_my_event_listing_view(id, note){
         },
         url: MY_EVENT_URL+id,
         success: function(res){
-            console.log("submut button");
-            console.log(res);
-            console.log(id);
+          //  console.log("submut button");
+          //  console.log(res);
+          //  console.log(id);
             $("#ed"+id).text("Edit Note");
             //$("#mynote"+id).val("llmmmmmmmm");
             $("#mynote"+id).attr("readonly",true);
+            modify_current_event(id,"added",note);
            //console.log( $("#mynote"+id).attr());
 
         }
@@ -895,8 +935,8 @@ function edit_my_event(id, note){
         return;
     }
     //var id="1234";
-    console.log("note");
-    console.log(note);
+   // console.log("note");
+   // console.log(note);
     $.ajax({
         type: 'PUT',
         //contentType: "application/json",
@@ -906,10 +946,11 @@ function edit_my_event(id, note){
         },
         url: MY_EVENT_URL+id,
         success: function(res){
-            console.log(res);
+          //  console.log(res);
             $("#ed"+id).text("Edit Note");
             $("#mynote"+id).attr("readonly");
             get_my_events();
+            modify_current_event(id,"added",note);
             
         }
     });
@@ -925,8 +966,9 @@ function delete_my_event(id){
         headers:auth_headers(),
         url: MY_EVENT_URL + id,
         success: function(res){
-            console.log(res);
+          //  console.log(res);
             get_my_events();
+            modify_current_event(id,"removed","");
         }
     });
 }
@@ -941,8 +983,9 @@ function delete_my_event_listing_view(id){
         headers:auth_headers(),
         url: MY_EVENT_URL + id,
         success: function(res){
-            console.log(res);
-            make_event_to_add_listing_view(id)
+           // console.log(res);
+            make_event_to_add_listing_view(id);
+            modify_current_event(id,"removed","");
 
         }
     });
@@ -975,7 +1018,7 @@ function admin_post(){
         url: ADMIN_POST_URL,
 
         success: function(res){
-            console.log(res);
+           // console.log(res);
             //get_my_events();
         }
     });
@@ -991,7 +1034,7 @@ function delete_admin_post(){
                
 
 
-                console.log("postID captured is: " +postID);
+             //   console.log("postID captured is: " +postID);
                     //text= {'text': text};
                      $.ajax({
                           type:"DELETE",
@@ -1002,7 +1045,7 @@ function delete_admin_post(){
                           //dataType: "json",
 
                          success: function(res) {
-                                 console.log(res);
+                              //   console.log(res);
                                  $('div[data='+postID+']').remove();
 
 
@@ -1011,6 +1054,26 @@ function delete_admin_post(){
 
 }
 
+
+function modify_current_event(id,status,note){
+    for (let l=0;l<current_events.length;l++){
+        console.log(current_events[l].in_my_events);
+            if(current_events[l].id==id){
+                if(status=="added"){
+                current_events[l].in_my_events=true;
+                current_events[l].note = note;
+                }
+                else{
+                    current_events[l].in_my_events=false;
+                }
+            }
+
+    }
+    //clear_view();
+    //console.log("currr");
+    //console.log(current_events);
+    //change_view("listing_view",current_events);
+}
 function register_all_callbacks(e) {
 
     $("#back-button").click(function() {
@@ -1029,9 +1092,9 @@ function register_all_callbacks(e) {
 
     $("#top-event-list-button").click(
         () => {
-        listing_view_new();
-        //filter_action();
-        //change_view("listing_view", current_events);
+       // listing_view_new();
+       // filter_action();
+        change_view("listing_view", current_events);
     });
     $("#top-event-map-button").click(
         () => {change_view("map_view", current_events)});

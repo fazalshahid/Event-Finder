@@ -67,6 +67,10 @@ app.delete('/my_event/:id',myEventHandler.delete_event);
 //Event routes
 app.get('/events', eventsHandler.get_events_list);
 
+app.get('/events_filter', eventsHandler.get_events_list_filter);
+app.get('/events_saved', eventsHandler.get_events_list_saved);
+
+
 
 var mongoose = require('mongoose');
 
