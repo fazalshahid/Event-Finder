@@ -950,9 +950,11 @@ function admin_post(){
 
         //contentType: "application/json",
         data: {
-            data:msg
+            data: msg,
+           
         },
 
+        dataType: 'json',
         headers:auth_headers(),
         url: ADMIN_POST_URL,
 

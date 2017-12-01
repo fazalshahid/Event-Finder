@@ -30,12 +30,12 @@ function getMessages(req,res,user){
 function postMessage(req,res,user){
     var id = req.body.id;
     
-    
+            
 
             admin = new Admin();
             data = req.body.data;
 
-         
+            console.log("data is "+ data);
 
             //console.log("after");
 
@@ -88,7 +88,7 @@ exports.getMessages = function(req,res){
 exports.postMessage = function(req,res){
 
     //only admin can post a msg
-    
+    console.log("got a post message request");
     postMessage(req,res);
 
     /*
