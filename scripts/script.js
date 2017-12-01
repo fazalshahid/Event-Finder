@@ -504,6 +504,7 @@ function register_view() {
 
 
 function change_view(view_type, data) {
+   
     clear_view();
 
     if (view_type == "detailed_view") {
@@ -534,6 +535,7 @@ function change_view(view_type, data) {
         set_login_logout_button();
     }
     else if (view_type == "my_events_view") {
+         $("#admin_msg_box").css("visibility", "visible"); 
         current_view_type = "my_events_view";
         //$(".filter_input_fields").css("visibility", "visible");
         my_events_view(data);
@@ -1099,19 +1101,39 @@ function register_all_callbacks(e) {
         () => {
        // listing_view_new();
        // filter_action();
+         if($('.navbar-toggle').css('display') !='none'){
+            $(".navbar-toggle").trigger( "click" );
+        }
+
         change_view("listing_view", current_events);
     });
     $("#top-event-map-button").click(
-        () => {change_view("map_view", current_events)});
+        () => {
+            if($('.navbar-toggle').css('display') !='none'){
+            $(".navbar-toggle").trigger( "click" );
+            }
+            change_view("map_view", current_events)});
+   
     $("#top-my_event-list-button").click(
-        () => {get_my_events()});
+        () => {
+            if($('.navbar-toggle').css('display') !='none'){
+            $(".navbar-toggle").trigger( "click" );
+                }
+        get_my_events()});
     $("#top-login-button").click(
         () => {
+            if($('.navbar-toggle').css('display') !='none'){
+            $(".navbar-toggle").trigger( "click" );
+            }
         change_view("login_view");
 
     });
     $("#top-logout-button").click(
-        () => { sign_out(); });
+        () => { 
+            if($('.navbar-toggle').css('display') !='none'){
+            $(".navbar-toggle").trigger( "click" );
+            }
+            sign_out(); });
 
 
     $("#button2").click(function() {
@@ -1153,6 +1175,8 @@ function register_all_callbacks(e) {
    
 
      setInterval(fetch_admin_messages, 5000);
+
+  
 }
 
 $(document).ready(register_all_callbacks);
