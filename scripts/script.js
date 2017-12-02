@@ -183,15 +183,17 @@ function listing_view(events) {
                 <div class="input-group">
                     <span class="input-group-addon">Note</span>
                     <input id="mynote${events[i].id}" type="text" class="form-control">
-                    <div class="input-group-btn">
+                    <div class="input-group-btn animated flipInX">
                         <button id = "my${events[i].id}" type="button" class="btn btn-warning" data-toggle="tooltip" title="Add to my event">
-                            +
+                        <span class="animated flipInX glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                         </button>
                         <button id = "ed${events[i].id}" type="button" class="btn btn-warning hidden" data-toggle="tooltip">
-                            Edit Note
+<span id = "star${events[i].id}" class="animated flipInX glyphicon glyphicon-star" aria-hidden="true"></span>
+  Edit Note
                         </button>
                         <button id = "rm${events[i].id}" type="button" class="btn btn-danger hidden" data-toggle="tooltip" title= "Remove From my Events">
-                            X
+ <span class="animated flipInX glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                           
                         </button>
                     </div>
                 </div>
@@ -221,15 +223,17 @@ function listing_view(events) {
                 <div class="input-group">
                     <span class="input-group-addon">Note</span>
                     <input id="mynote${events[i].id}" type="text" class="form-control" value="${events[i].note}" readonly>
-                    <div class="input-group-btn">
+                    <div class="input-group-btn animated flipInX">
                         <button id = "ed${events[i].id}" type="button" class="btn btn-warning" data-toggle="tooltip">
-                            Edit Note
+                           <span id = "star${events[i].id}" class="animated flipInX glyphicon glyphicon-star" aria-hidden="true"></span>
+                           Edit Note
                         </button>
                         <button id = "rm${events[i].id}" type="button" class="btn btn-danger" data-toggle="tooltip" title= "Remove From my Events">
-                            X
+                            <span class="animated flipInX glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+ 
                         </button>
                         <button id = "my${events[i].id}" type="button" class="btn btn-warning hidden" data-toggle="tooltip" title="Add to my event">
-                            +
+                            <span class="animated flipInX glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                         </button>
                     </div>
                 </div>
@@ -353,10 +357,13 @@ function my_events_view(events) {
                     <input id="mynote${events[i].event_id}" type="text" class="form-control" value="${events[i].note}" readonly>
                     <div class="input-group-btn">
                         <button id = "ed${events[i].event_id}" type="button" class="btn btn-warning" data-toggle="tooltip">
+                             <span id = "star${events[i].id}" class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                          
                             Edit Note
                         </button>
                         <button id = "rm${events[i].event_id}" type="button" class="btn btn-danger" data-toggle="tooltip" title= "Remove From my Events">
-                            X
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+ 
                         </button>
                     </div>
                 </div>

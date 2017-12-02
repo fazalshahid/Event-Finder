@@ -22,12 +22,12 @@
                 overflow: scroll;
                 }
 
-     .filter_input_fields{
+             .filter_input_fields{
+                            padding-top: 20px;
+                        }
+                #header_my_events{
                     padding-top: 20px;
                 }
-        #header_my_events{
-            padding-top: 20px;
-        }
 
     }
 
@@ -35,16 +35,16 @@
     /* Small Devices, Tablets */
     @media only screen and (min-width : 768px) {
             .panel-body{
-    height: 200px;
-    overflow: scroll;
-    }
-
-     .filter_input_fields{
-                    padding-top: 20px;
+                height: 200px;
+                overflow: scroll;
                 }
-     #header_my_events{
-         padding-top: 20px;
-    }
+
+             .filter_input_fields{
+                            padding-top: 20px;
+                        }
+             #header_my_events{
+                 padding-top: 20px;
+            }
     }
 
     /* Medium Devices, Desktops */
@@ -53,12 +53,12 @@
                     height: 300px;
                     overflow: scroll;
                     }
-    .filter_input_fields{
-                    padding-top: 20px;
-                }
-        #header_my_events{
-            padding-top: 20px;
-        }
+                    .filter_input_fields{
+                                    padding-top: 20px;
+                                }
+                        #header_my_events{
+                            padding-top: 20px;
+                        }
     }
 
     /* Large Devices, Wide Screens */
@@ -71,9 +71,9 @@
                 .filter_input_fields{
                     padding-top: 80px;
                 }
-        #header_my_events{
-            padding-top: 80px;
-        }
+                #header_my_events{
+                    padding-top: 80px;
+                }
     }
 
 /*
@@ -81,6 +81,9 @@
     height: 440px;
     overflow: scroll;
 }*/
+.glyphicon.glyphicon-remove-circle {
+    font-size: 15px;
+}
 
 .date_list{
     margin-left: 10px;
@@ -118,6 +121,7 @@
     color: #337ab7;
     font-size: 15px;
     font-weight: bold;
+    font-family: 'Contrail One', cursive;
     /*border-style: solid;
     border-width: 5px;
     height: 300px;
@@ -243,8 +247,10 @@ body, html {
     background-color: white;
     height: 100%;
     margin: 0;
-    font: 400 15px/1.8;
-    font-family: 'Open Sans', sans-serif;
+    font: 400 20px/1.8;
+    font-size: 20px;
+   font-family: 'Contrail One', cursive;
+    /*font-family: 'Open Sans', sans-serif;*/
     color: white;
     
 }
