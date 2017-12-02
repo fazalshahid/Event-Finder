@@ -37,7 +37,7 @@ let new_size=0;
 
 let detailed_parent="";
 
-
+let classification_filter_dropdown_options = ['', 'Music', 'Sports', 'Arts & Theater', 'Family', 'Miscellaneous']
 
 
 function initMap() {
@@ -68,7 +68,13 @@ function hide_my_event_header(){
     $("#filter_inp_fields").removeClass("hidden");
 }
 
-
+function add_dropdown_to_classification_field()
+{
+    $("#classification_filter").empty();
+    for (let i =0; i < classification_filter_dropdown_options.length; i++) {
+        $("#classification_filter").append('<option>' + classification_filter_dropdown_options[i] + '</option>');
+    }
+}
 
 function detailed_view(id){
 
@@ -559,6 +565,7 @@ function change_view(view_type, data) {
         hide_both_login_logout_button();
     }
 
+    add_dropdown_to_classification_field();
 }
 
 function saved_action (e) {
