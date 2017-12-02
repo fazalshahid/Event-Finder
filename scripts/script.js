@@ -72,7 +72,9 @@ function add_dropdown_to_classification_field()
 {
     $("#classification_filter").empty();
     for (let i =0; i < classification_filter_dropdown_options.length; i++) {
+
         $("#classification_filter").append('<option>' + classification_filter_dropdown_options[i] + '</option>');
+        
     }
 }
 
@@ -565,7 +567,7 @@ function change_view(view_type, data) {
         hide_both_login_logout_button();
     }
 
-    add_dropdown_to_classification_field();
+  //  add_dropdown_to_classification_field();
 }
 
 function saved_action (e) {

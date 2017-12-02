@@ -237,8 +237,25 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-4">
-                        <select id="classification_filter" type="text" class="form-control" placeholder="Search...">
-                        </select>
+                      <!--  <select id="classification_filter" type="text" class="form-control">
+                            <option value="" disabled selected>Search or choose category</option>
+                            <option value="Music">Music </option>
+                            <option value="Sports">Sports</option>
+                             <option value="Arts & Theater">Arts & Theater</option> 
+                             
+                             <option value="Family">Family</option>
+                             
+                             <option value="Miscellaneous">Miscellaneous</option>
+                        </select> -->
+                        <input class="form-control" type="text" id="classification_filter" placeholder="Search or choose category" list="classes">
+
+                        <datalist id="classes">
+                              <option>Music</option>
+                              <option>Sports</option>
+                              <option>Arts & Theater</option>
+                              <option>Family</option>
+                              <option>Miscellaneous</option>
+                        </datalist>
                     </div>
                     <div class="col-sm-4">
                         <input id="city_filter" type="text" class="form-control" placeholder="Enter city...">
