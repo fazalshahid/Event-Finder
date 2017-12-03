@@ -32,7 +32,7 @@ function get_events_list_saved(req,res){
                                     res.status(200).json(events_list.events); //lol
                                 }
                                 else {
-                                    console.log(">>>Getting to logged in user part")
+                                    console.log(">>>Getting to logged in user part first123");
                                     data = events_list.events[0]
                                     for (let i = 0; i < data._embedded.events.length; i++) {
                                         if (typeof(events.find(
@@ -85,8 +85,10 @@ function get_events_list_filter (req,res){
                                     res.status(200).json(JSON.parse(data)); //lol
                                 }
                                 else {
-                                    console.log(">>>Getting to logged in user part")
+                                    console.log(">>>Getting to logged in user middlepart123");
+                                    //console.log(data);
                                     data = JSON.parse(data);
+
 
                                         EventList.findOne({},function(err,obj){
 
@@ -151,8 +153,21 @@ function get_events_list(req, res) {
                                     res.status(200).json(JSON.parse(data)); //lol
                                 }
                                 else {
-                                    console.log(">>>Getting to logged in user part")
+                                    console.log(">>>Getting to logged in user part last123123");
+                                    //console.log(data);
                                     data = JSON.parse(data);
+                                   
+                                    console.log("after parsing data");
+                                    //console.log(data);
+                                    if(data.page.totalElements==0){
+                                         
+                                         console.log("0 elements detected");
+                                        console.log("event does not exist. TM API returned no such events");
+                                        return res.status(200).json(data);
+                                        
+                                    }
+                                    
+                                
                                     for (let i = 0; i < data._embedded.events.length; i++) {
                                         if (typeof(events.find(
                                             //function (event) {return event.event_id == data._embedded.events[i].id}))
