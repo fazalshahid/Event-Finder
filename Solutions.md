@@ -8,3 +8,5 @@ We also have an Admin box that shows signed in users important messages from the
 admin account which the admin can use to login to the website and can get,post or delete the messages via a GUI. The
 admin can either login and use the GUI to GET/POST/DELETE messages or can achieve the same using command-line-interface via 
 curl http requests.
+
+Our admin API endpoints are designed as RESTFUL and have been implemented to allow the admin to issue commands to get, post and delete messages using HTTP GET, POST and DELETE actions. 
